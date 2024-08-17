@@ -21,7 +21,9 @@ package {
       "fromWhisper": "[From: ${AUTHOR}]: ${CONTENT}",
       "broadcast": " ${CONTENT}", // starts with a space to be pretty when added to the timestamp
       "lootbox": "[${CHANNEL}][${AUTHOR}]: ${CONTENT}",
-      "me": "[${CHANNEL}] ${AUTHOR} ${CONTENT}"
+      "me": "[${CHANNEL}] ${AUTHOR} ${CONTENT}",
+      "timer": " ${AUTHOR} started a timer of ${CONTENT} seconds.", // same as broadcast
+      "dumb": "[${CHANNEL}][${AUTHOR}]: I'm dumb :)"
     }
 
     public function Message(channel:String, author:String, content:String, content_color:uint, author_color:uint, wasSent:Boolean, showAuthor:Boolean = true, lootbox:Boolean = false) {
@@ -37,7 +39,7 @@ package {
     }
 
     private function formatMessage(fmt:String) : TextField {
-      var text:String = renderer.colored(Timestamp.get() + this.format[fmt], renderer.rgbToHex(fmt == "me" ? this.author_color : this.content_color));
+      var text:String = renderer.colored(Timestamp.get() + this.format[fmt], renderer.rgbToHex(fmt == "me" ? this.author_color : fmt == "timer" ? renderer.RED : this.content_color));
 
       // Replace the placeholders
       text = text.replace("${CHANNEL}", this.channel);
@@ -71,6 +73,15 @@ package {
       if(this.content.indexOf("me/") == 0) {
         fmt = "me";
         this.content = this.content.substr(4);
+      } else if (this.content.indexOf("timer/") == 0 && this.channel.indexOf("World") > -1) {
+        fmt = "timer";
+        this.content = this.content.substr(6);
+        var temp:Number = Number(this.content);
+        if(isNaN(temp)) fmt = "default";
+        else {
+          if (temp > 0 && temp < 26) curvu.cmd.startTimer(temp);
+          else fmt = "dumb";
+        }
       }
 
       return this.formatMessage(fmt);

@@ -34,6 +34,7 @@ package {
     private function onKeyPressed(e:KeyboardEvent) : void {
       if(e.keyCode == Keyboard.ENTER) {
         if(curvu.cmd.checkCommand(this.inputText.text)) return;
+        if(curvu.DEBUG) curvu.chat.addMessage(0, "World", "Jus7Ace", this.inputText.text, renderer.WHITE, renderer.WHITE, false, true, false);
         ExternalInterface.call("OnExecute", this.inputText.text);
       } else if(e.keyCode == Keyboard.SPACE) {
         ExternalInterface.call("OnAutocomplete", this.inputText.text);

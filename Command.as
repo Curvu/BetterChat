@@ -57,11 +57,23 @@ package {
       curvu.chat.addExternalMessage("There are " + this.whoCounter + " players in the world.");
     }
 
+    public function startTimer(number:uint) {
+      var timer:Timer = new Timer(1000, number);
+      timer.addEventListener(TimerEvent.TIMER, function(e:TimerEvent) {
+        if(timer.currentCount != number) curvu.chat.addExternalMessage("" + (number - timer.currentCount));
+        else curvu.chat.addExternalMessage("GO! GO! GO!");
+      });
+      timer.start();
+    }
+
+
     private function sendHelp() {
       curvu.chat.addExternalMessage("New commands:");
       curvu.chat.addExternalMessage("//who - Prints the number of players in the world.");
       curvu.chat.addExternalMessage("/clear - Clears the chat.");
       curvu.chat.addExternalMessage("/zen - Toggles zen mode (disable/enable chat).");
+      curvu.chat.addExternalMessage("timer/{number} - Starts a countdown timer in the interval [1, 25].");
+      curvu.chat.addExternalMessage("me/ {message} - Sends a message with the same color of your name");
     }
   }
 }
