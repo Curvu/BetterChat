@@ -9,7 +9,7 @@ package {
     public static const MAX_MESSAGES:int = 50;
     public static const TIMESTAMP_FMT:String = "[${HOURS}:${MINUTES}:${SECONDS}]";
 
-    public static const DEBUG:Boolean = true;
+    public static const DEBUG:Boolean = false;
 
     public static var cmd:Command = new Command();
     public static var chat:Chat;

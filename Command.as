@@ -34,13 +34,16 @@ package {
         break;
       case "clear":
         curvu.chat.clear();
+        ExternalInterface.call("OnExecute", " ");
         break;
       case "zen":
         this.zenMode = !this.zenMode;
         curvu.chat.addExternalMessage("Zen mode " + (this.zenMode ? "enabled." : "disabled."));
+        ExternalInterface.call("OnExecute", " ");
         break;
       case "help":
         sendHelp();
+        ExternalInterface.call("OnExecute", " ");
         break;
       default:
         ExternalInterface.call("OnExecute", "/" + cmd + " " + args.join(" "));
