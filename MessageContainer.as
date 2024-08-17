@@ -44,5 +44,9 @@ package {
     public function get channel() : String {
       return this.message.channel;
     }
+
+    public function get author_color() : uint {
+      return this.message.author_color;
+    }
   }
 }
