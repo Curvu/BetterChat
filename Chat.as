@@ -158,6 +158,7 @@ package {
     public function addMessage(_:uint, channel:String, author:String, content:String, content_color:uint, author_color:uint, wasSent:Boolean, showAuthor:Boolean = true, broadcast:Boolean = false) : void {
       var msg:MessageContainer = new MessageContainer(channel, author, content, content_color, author_color, wasSent, showAuthor, broadcast);
       if (!msg.shouldAdd()) return;
+      if (curvu.cmd.zenMode) return;
 
       // adding the message
       msg.addEventListener(MouseEvent.RIGHT_CLICK, onRightClick);
@@ -167,7 +168,10 @@ package {
     }
 
     public function addExternalMessage(content:String) : void {
+      var last_state:Boolean = curvu.cmd.zenMode;
+      curvu.cmd.zenMode = false;
       this.addMessage(0, "", "", content, renderer.RED, 0, false, false, true);
+      curvu.cmd.zenMode = last_state;
     }
 
     private function onRightClick(e:MouseEvent) : void {
@@ -241,6 +245,16 @@ package {
         y = message.y;
         this.container.addChild(message);
       }
+    }
+
+    public function clear() : void {
+      for each (var msg:MessageContainer in this.messages)
+        if (this.contains(msg))
+          this.container.removeChild(msg);
+
+      this.messages.length = 0;
+      this.indexScroll = 0;
+      this.updateScroll();
     }
   }
 }

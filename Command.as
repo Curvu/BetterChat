@@ -5,6 +5,7 @@ package {
 
   public class Command {
     public var blockPrint:Boolean = false;
+    public var zenMode:Boolean = false;
     public var whoCommandSent:Boolean = false;
     public var whoCounter:uint = 0;
     public var whoTimer:Timer = new Timer(77, 1);
@@ -18,10 +19,6 @@ package {
       super();
     }
 
-    //TODO: disable chat
-    //TODO: enable chat
-    //TODO: clear chat
-
     public function checkCommand(input:String) {
       if(input.charAt(0) != "/") return false;
       var args:Array = input.split(" ");
@@ -34,6 +31,13 @@ package {
         this.whoCounter = 0;
         this.whoCommandSent = true;
         ExternalInterface.call("OnExecute", "/who");
+        break;
+      case "clear":
+        curvu.chat.clear();
+        break;
+      case "zen":
+        this.zenMode = !this.zenMode;
+        curvu.chat.addExternalMessage("Zen mode " + (this.zenMode ? "enabled." : "disabled."));
         break;
       case "help":
         sendHelp();
@@ -53,6 +57,8 @@ package {
     private function sendHelp() {
       curvu.chat.addExternalMessage("New commands:");
       curvu.chat.addExternalMessage("//who - Prints the number of players in the world.");
+      curvu.chat.addExternalMessage("/clear - Clears the chat.");
+      curvu.chat.addExternalMessage("/zen - Toggles zen mode (disable/enable chat).");
     }
   }
 }
