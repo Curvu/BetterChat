@@ -8,10 +8,8 @@ package {
   import components.Button;
 
   // TODO: chat tabs
-  // TODO: Timestamps
   // TODO: config
   // TODO: colors for specific people
-  // TODO (maybe): right click menu only on other's messages and not on my own
   // remove scroll?
 
   public class Chat extends MovieClip {

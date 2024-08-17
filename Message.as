@@ -1,6 +1,8 @@
 package {
   import flash.text.TextField;
 
+  import utils.Timestamp;
+
   public class Message {
     public var channel:String;
     public var author:String;
@@ -17,7 +19,7 @@ package {
       "default": "[${CHANNEL}][${AUTHOR}]: ${CONTENT}",
       "toWhisper": "[To: ${AUTHOR}]: ${CONTENT}",
       "fromWhisper": "[From: ${AUTHOR}]: ${CONTENT}",
-      "broadcast": "${CONTENT}",
+      "broadcast": " ${CONTENT}", // starts with a space to be pretty when added to the timestamp
       "lootbox": "[${CHANNEL}][${AUTHOR}]: ${CONTENT}",
       "me": "[${CHANNEL}] ${AUTHOR} ${CONTENT}"
     }
@@ -35,7 +37,7 @@ package {
     }
 
     private function formatMessage(fmt:String) : TextField {
-      var text:String = renderer.colored(this.format[fmt], renderer.rgbToHex(fmt == "me" ? this.author_color : this.content_color));
+      var text:String = renderer.colored(Timestamp.get() + this.format[fmt], renderer.rgbToHex(fmt == "me" ? this.author_color : this.content_color));
 
       // Replace the placeholders
       text = text.replace("${CHANNEL}", this.channel);
