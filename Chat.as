@@ -176,7 +176,7 @@ package {
 
     private function onRightClick(e:MouseEvent) : void {
       var message:MessageContainer = e.currentTarget as MessageContainer;
-      if (!message || message.author.length <= 0) return;
+      if (!message || message.author.length <= 0 || (message.channel.length <= 0 && message.author_color != 14446832)) return;
       this.onDisableMenu();
 
       this.menu = renderer.rectangle(new Sprite(), 0, 0, 100, 100, renderer.GRAY_12);
