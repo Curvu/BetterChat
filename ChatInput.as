@@ -1,12 +1,11 @@
 package {
   import flash.display.MovieClip;
-  import flash.display.Sprite;
   import flash.events.Event;
   import flash.events.KeyboardEvent;
   import flash.external.ExternalInterface;
   import flash.text.TextField;
-  import flash.ui.Keyboard;
   import flash.text.TextFormat;
+  import flash.ui.Keyboard;
 
   public class ChatInput extends MovieClip {
     public var defaultChannelTextField:TextField;
@@ -18,7 +17,7 @@ package {
     }
 
     private function onEnterFrame(e:Event) : void {
-      this.y = curvu.Y + curvu.H - 2;
+      this.y = (curvu.chat.is_active ? curvu.Y_EXPANDED + cfg.config.H_EXPANDED : curvu.Y + cfg.config.H) - 2;
 
       this.visible = curvu.DEBUG;
       this.inputText.addEventListener(KeyboardEvent.KEY_DOWN, this.onKeyPressed);
@@ -26,17 +25,15 @@ package {
       ExternalInterface.addCallback("setInput", this.setInput);
       ExternalInterface.addCallback("getInput", this.getInput);
       removeEventListener(Event.ENTER_FRAME, this.onEnterFrame);
-
-      if (curvu.DEBUG)
-        this.setDefaultChannel("General", renderer.WHITE);
     }
 
     private function onKeyPressed(e:KeyboardEvent) : void {
       if(e.keyCode == Keyboard.ENTER) {
         if(curvu.cmd.checkCommand(this.inputText.text)) return;
-        if(curvu.DEBUG) curvu.chat.addMessage(0, "World", "Jus7Ace", this.inputText.text, renderer.WHITE, renderer.WHITE, false, true, false);
-        ExternalInterface.call("OnExecute", this.inputText.text);
-      } else if(e.keyCode == Keyboard.SPACE) {
+        if(curvu.DEBUG) curvu.chat.addMessage(0, "World", "Jus7Ace", (curvu.chat.current_tab == "ALL" ? "" : "/w " + curvu.chat.current_tab + " ") + this.inputText.text, renderer.WHITE, renderer.WHITE, false, true, false);
+        trace("OnExecute", (curvu.chat.current_tab == "ALL" ? "" : "/w " + curvu.chat.current_tab + " ") + this.inputText.text);
+        ExternalInterface.call("OnExecute", (curvu.chat.current_tab == "ALL" ? "" : "/w " + curvu.chat.current_tab + " ") + this.inputText.text);
+      } else if(e.keyCode == Keyboard.SPACE && curvu.chat.current_tab == "ALL") {
         ExternalInterface.call("OnAutocomplete", this.inputText.text);
       } else if(e.keyCode == Keyboard.TAB) {
         // ExternalInterface.call("OnCycleWhisperTarget", this.inputText.text); -> very lagged
@@ -69,25 +66,35 @@ package {
       return this.inputText.text;
     }
 
-    private function setDefaultChannel(channel:String, color:uint) : void {
-      this.defaultChannelTextField.text = channel + " >";
+    public function getDefaultChannel() : String {
+      return this.defaultChannelTextField.text;
+    }
+
+    public function getDefaultChannelColor() : uint {
+      return this.defaultChannelTextField.textColor;
+    }
+
+    public function setDefaultChannel(channel:String, color:uint) : void {
+      this.defaultChannelTextField.text = channel;
 
       var channelFormat:TextFormat = new TextFormat();
-      channelFormat.size = curvu.TEXT_SIZE;
-      var arrowFormat:TextFormat = new TextFormat();
-      arrowFormat.size = curvu.TEXT_SIZE - 3;
-      arrowFormat.bold = true;
+      channelFormat.size = cfg.config.TEXT_SIZE;
+      // var arrowFormat:TextFormat = new TextFormat();
+      // arrowFormat.size = cfg.config.TEXT_SIZE - 3;
+      // arrowFormat.bold = true;
 
-      this.defaultChannelTextField.width = this.defaultChannelTextField.textWidth;
+      this.defaultChannelTextField.width = this.defaultChannelTextField.textWidth + 5;
       this.inputText.x = this.defaultChannelTextField.x + this.defaultChannelTextField.width;
-      this.inputText.width = curvu.W - this.inputText.x;
+      this.inputText.width = cfg.config.W - this.inputText.x;
       this.defaultChannelTextField.textColor = color;
 
-      this.defaultChannelTextField.setTextFormat(channelFormat);
-      this.inputText.setTextFormat(channelFormat);
-      this.defaultChannelTextField.setTextFormat(arrowFormat, channel.length, channel.length + 2);
+      // this.defaultChannelTextField.setTextFormat(channelFormat);
+      // this.inputText.setTextFormat(channelFormat);
+      // this.defaultChannelTextField.setTextFormat(arrowFormat, channel.length, channel.length + 2);
+      // this.defaultChannelTextField.y = this.inputText.y = (this.height - this.defaultChannelTextField.textHeight) / 2;
 
-      this.defaultChannelTextField.y = this.inputText.y = (this.height - this.defaultChannelTextField.textHeight) / 2;
+      if (this.defaultChannelTextField.text != "Whisper")
+        curvu.chat.refreshSavedChannel();
     }
   }
 }

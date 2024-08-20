@@ -6,7 +6,7 @@ package utils {
       var minutes:String = (date.minutes < 10) ? "0" + date.minutes : date.minutes.toString();
       var seconds:String = (date.seconds < 10) ? "0" + date.seconds : date.seconds.toString();
 
-      return curvu.TIMESTAMP_FMT.replace("${HOURS}", hours).replace("${MINUTES}", minutes).replace("${SECONDS}", seconds);
+      return cfg.config.TIMESTAMP_FMT.replace("${HOURS}", hours).replace("${MINUTES}", minutes).replace("${SECONDS}", seconds);
     }
   }
 }

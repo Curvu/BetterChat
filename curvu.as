@@ -1,13 +1,7 @@
 package {
   public class curvu {
-    public static const W:int = 400;
-    public static const H:int = 250;
     public static const Y:int = 125;
     public static const Y_EXPANDED:int = 25;
-    public static const H_EXPANDED:int = 350;
-    public static const TEXT_SIZE:int = 13;
-    public static const MAX_MESSAGES:int = 50;
-    public static const TIMESTAMP_FMT:String = "[${HOURS}:${MINUTES}:${SECONDS}]";
 
     public static const DEBUG:Boolean = false;
 
@@ -19,6 +13,10 @@ package {
       var g:uint = (color >> 8) & 0xFF;
       var b:uint = color & 0xFF;
       return ((r * amount) << 16) | ((g * amount) << 8) | (b * amount);
+    }
+
+    public static function clamp(p:Number, min:Number, max:Number) : Number {
+      return Math.max(min, Math.min(max, p));
     }
   }
 }

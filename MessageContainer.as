@@ -1,12 +1,8 @@
 package {
   import flash.external.ExternalInterface;
-  import flash.text.TextField;
   import flash.display.Sprite;
-  import flash.events.MouseEvent;
   import flash.events.TimerEvent;
   import flash.utils.Timer;
-
-  import components.Button;
 
   public class MessageContainer extends Sprite {
     private var message:Message;
@@ -16,11 +12,11 @@ package {
       this.message = new Message(channel, author, content, content_color, author_color, wasSent, showAuthor, lootbox);
       this.addChild(this.message.toString());
 
-      this.bg = renderer.rectangle(new Sprite(), 0, 0, curvu.W, this.message.height+5, 0, 0.5);
+      this.bg = renderer.rectangle(new Sprite(), 0, 0, cfg.config.W, this.message.height+5, 0, 0.5);
       this.addChildAt(this.bg, 0);
     }
 
-    public function shouldAdd() : Boolean {
+    public function whoHandler() : Boolean {
       if (!(curvu.cmd.whoCommandSent && this.message.channel == "" && this.message.content.indexOf(": (") > -1))
         return true;
 
@@ -31,6 +27,10 @@ package {
         curvu.cmd.whoTimer.start();
       }
       return !curvu.cmd.blockPrint;
+    }
+
+    public function isWhisper() : Boolean {
+      return this.message.content_color == renderer.WHISPER_COLOR && this.message.channel.length <= 0;
     }
 
     public function set theme(t:Boolean) : void {

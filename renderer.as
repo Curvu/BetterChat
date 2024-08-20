@@ -24,6 +24,8 @@ package {
     public static const GRAY_41:int = 0x292929;
     public static const GRAY_48:int = 0x303030;
 
+    public static const WHISPER_COLOR:int = 14446832;
+
     public function renderer() {
       super();
     }
