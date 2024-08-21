@@ -35,20 +35,21 @@ package {
       this.wasSent = wasSent;
       this.showAuthor = showAuthor;
       this.lootbox = lootbox;
-      this.message = renderer.text("", 5, 2, cfg.config.TEXT_SIZE, "left", cfg.config.W-5, 0, true);
+      this.message = renderer.text("", 5, 2, cfg.config.text_size, "left", cfg.config.w-5, 0, true);
     }
 
     private function formatMessage(fmt:String) : TextField {
-      var text:String = renderer.colored(Timestamp.get() + this.format[fmt], renderer.rgbToHex(fmt == "me" ? this.author_color : fmt == "timer" ? renderer.RED : this.content_color));
+      var text:String = renderer.colored(Timestamp.get() + format[fmt], renderer.rgbToHex(fmt == "me" ? curvu.users[author] || author_color : fmt == "timer" ? renderer.RED : content_color));
 
       // Replace the placeholders
-      text = text.replace("${CHANNEL}", this.channel);
-      text = text.replace("${ME}", renderer.colored("me", renderer.rgbToHex(this.author_color)));
-      text = text.replace("${AUTHOR}", renderer.colored(this.author, renderer.rgbToHex(this.author_color)));
-      text = text.replace("${CONTENT}", this.content);
+      text = text.replace("${CHANNEL}", channel);
+      text = text.replace("${ME}", renderer.colored("me", renderer.rgbToHex(author_color)));
+      text = text.replace("${AUTHOR}", renderer.colored(author, renderer.rgbToHex(curvu.users[author] || author_color)));
+      trace(curvu.users[author] || author_color);
+      text = text.replace("${CONTENT}", content);
 
-      this.message.htmlText = text;
-      this.message.height = this.message.textHeight;
+      message.htmlText = text;
+      message.height = message.textHeight;
 
       return this.message;
     }

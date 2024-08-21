@@ -3,10 +3,19 @@ package {
     public static const Y:int = 125;
     public static const Y_EXPANDED:int = 25;
 
-    public static const DEBUG:Boolean = false;
-
     public static var cmd:Command = new Command();
     public static var chat:Chat;
+
+    public static var users:Object = {
+      "Jus7Ace": 0xADFF00,
+      "smellyalater": 0x00FF00,
+      "mamameow": 0xA2E4B8,
+      "Axodius": 0xFF0087,
+      "Naxie": 0xD470A2,
+      "Agum0n": 0xffc0cb,
+      "_Carbon": 0xCF9FFF,
+      "KaiJiieow": 0xEE775E
+    }
 
     public static function darken(color:uint, amount:Number) : uint {
       var r:uint = (color >> 16) & 0xFF;

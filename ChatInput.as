@@ -17,9 +17,8 @@ package {
     }
 
     private function onEnterFrame(e:Event) : void {
-      this.y = (curvu.chat.is_active ? curvu.Y_EXPANDED + cfg.config.H_EXPANDED : curvu.Y + cfg.config.H) - 2;
-
-      this.visible = curvu.DEBUG;
+      this.y = curvu.Y_EXPANDED + cfg.config.h_expanded - 2;
+      this.visible = false;
       this.inputText.addEventListener(KeyboardEvent.KEY_DOWN, this.onKeyPressed);
       ExternalInterface.addCallback("setDefaultChannel", this.setDefaultChannel);
       ExternalInterface.addCallback("setInput", this.setInput);
@@ -30,8 +29,6 @@ package {
     private function onKeyPressed(e:KeyboardEvent) : void {
       if(e.keyCode == Keyboard.ENTER) {
         if(curvu.cmd.checkCommand(this.inputText.text)) return;
-        if(curvu.DEBUG) curvu.chat.addMessage(0, "World", "Jus7Ace", (curvu.chat.current_tab == "ALL" ? "" : "/w " + curvu.chat.current_tab + " ") + this.inputText.text, renderer.WHITE, renderer.WHITE, false, true, false);
-        trace("OnExecute", (curvu.chat.current_tab == "ALL" ? "" : "/w " + curvu.chat.current_tab + " ") + this.inputText.text);
         ExternalInterface.call("OnExecute", (curvu.chat.current_tab == "ALL" ? "" : "/w " + curvu.chat.current_tab + " ") + this.inputText.text);
       } else if(e.keyCode == Keyboard.SPACE && curvu.chat.current_tab == "ALL") {
         ExternalInterface.call("OnAutocomplete", this.inputText.text);
@@ -78,14 +75,14 @@ package {
       this.defaultChannelTextField.text = channel;
 
       var channelFormat:TextFormat = new TextFormat();
-      channelFormat.size = cfg.config.TEXT_SIZE;
+      channelFormat.size = cfg.config.text_size;
       // var arrowFormat:TextFormat = new TextFormat();
-      // arrowFormat.size = cfg.config.TEXT_SIZE - 3;
+      // arrowFormat.size = cfg.config.text_size - 3;
       // arrowFormat.bold = true;
 
       this.defaultChannelTextField.width = this.defaultChannelTextField.textWidth + 5;
       this.inputText.x = this.defaultChannelTextField.x + this.defaultChannelTextField.width;
-      this.inputText.width = cfg.config.W - this.inputText.x;
+      this.inputText.width = cfg.config.w - this.inputText.x;
       this.defaultChannelTextField.textColor = color;
 
       // this.defaultChannelTextField.setTextFormat(channelFormat);

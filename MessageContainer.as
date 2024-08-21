@@ -12,7 +12,7 @@ package {
       this.message = new Message(channel, author, content, content_color, author_color, wasSent, showAuthor, lootbox);
       this.addChild(this.message.toString());
 
-      this.bg = renderer.rectangle(new Sprite(), 0, 0, cfg.config.W, this.message.height+5, 0, 0.5);
+      this.bg = renderer.rectangle(new Sprite(), 0, 0, cfg.config.w, this.message.height+5, 0, 0.5);
       this.addChildAt(this.bg, 0);
     }
 
@@ -47,6 +47,10 @@ package {
 
     public function get author_color() : uint {
       return this.message.author_color;
+    }
+
+    public function get wasSent() : Boolean {
+      return this.message.wasSent;
     }
   }
 }

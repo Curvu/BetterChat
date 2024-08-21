@@ -6,14 +6,11 @@ package {
   import flash.utils.Dictionary;
   import flash.utils.Timer;
   import flash.events.TimerEvent;
-  import flash.utils.setTimeout;
 
   import components.Menu;
 
-  // TODO: chat tabs - almost done
-  // tabbar scrollable left/right for many tabs
-  // TODO: colors for specific people??
   // remove scrollbar - at least fix this shit??
+  // TODO: fix timestamp on cfg
 
   public class Chat extends MovieClip {
     private var container:Sprite;
@@ -42,29 +39,31 @@ package {
       super();
       curvu.chat = this;
       ExternalInterface.addCallback("loadModConfiguration", cfg.onLoadModConfig);
-      configUI();
+      var timer:Timer = new Timer(100, 1);
+      timer.addEventListener(TimerEvent.TIMER_COMPLETE, configUI);
+      timer.start();
     }
 
-    private function configUI() : void {
+    private function configUI(e:TimerEvent) {
       this.tabs["ALL"] = new Dictionary();
       this.tabs["ALL"]["messages"] = new Vector.<MessageContainer>();
 
-      renderer.rectangle(this, 0, curvu.Y, cfg.config.W, cfg.config.H, renderer.GRAY_48, 0.5);
+      renderer.rectangle(this, 0, curvu.Y, cfg.config.w, cfg.config.h, renderer.GRAY_48, 0.5);
 
-      this.inputBg = renderer.rectangle(new Sprite(), 0, (curvu.chat.is_active ? curvu.Y_EXPANDED + cfg.config.H_EXPANDED : curvu.Y + cfg.config.H), cfg.config.W, 24, renderer.GRAY_28, 0.85);
+      this.inputBg = renderer.rectangle(new Sprite(), 0, curvu.Y_EXPANDED + cfg.config.h_expanded, cfg.config.w, 24, renderer.GRAY_28, 0.85);
       this.inputBg.visible = false;
       this.addChild(this.inputBg);
       this.input = new ChatInput();
       this.addChild(this.input);
       this.refreshSavedChannel();
 
-      this.tabbar = renderer.rectangle(new Sprite(), 0, curvu.Y-25, cfg.config.W, 24, 0, 0);
+      this.tabbar = renderer.rectangle(new Sprite(), 0, curvu.Y-25, cfg.config.w, 24, 0, 0);
       this.addChild(this.tabbar);
 
-      this.container = renderer.rectangle(new Sprite(), 0, curvu.Y_EXPANDED, cfg.config.W+1, cfg.config.H_EXPANDED, 0, 0);
+      this.container = renderer.rectangle(new Sprite(), 0, curvu.Y_EXPANDED, cfg.config.w+1, cfg.config.h_expanded, 0, 0);
       this.addChild(this.container);
 
-      this.clipping_mask = renderer.rectangle(new Sprite(), 0, curvu.Y, cfg.config.W, cfg.config.H, 0xFF00FF);
+      this.clipping_mask = renderer.rectangle(new Sprite(), 0, curvu.Y, cfg.config.w, cfg.config.h, 0xFF00FF);
       this.container.mask = this.clipping_mask;
       this.addChild(this.clipping_mask);
 
@@ -73,22 +72,35 @@ package {
 
       ExternalInterface.addCallback("onSetActive", this.onSetActive);
       ExternalInterface.addCallback("addMessage", this.addMessage);
+
+      // this.addMessage(0, "", "Sunseeker Guard", "gun ruler mother population brain girl unless east be arrange store became darkness upon anything explanation accident perfectly cold sun keep nice matter human", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
+      // this.addMessage(0, "", "Sunseeker Guard", "pupil shirt here tired promised anyone treated alive money plastic bar trouble broad decide pink appearance usually molecular particularly police for colony doll nice", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
+      // this.addMessage(0, "", "Sunseeker Guard", "give satisfied chart information card wonderful dog drop apart either route with nearest character per hello bear symbol signal outline caught graph wife tight", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
+      // this.addMessage(0, "", "Jus7Ace", "clay factory vote youth noun up remain train mile quarter simply grandmother melted return blow am settlers environment date let aboard last article kept", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
+      // this.addMessage(0, "", "Allen Moody", "topic sent supply specific stuck simplest declared poor distant play buy matter smaller yesterday shore lower point interest afternoon likely plan fun color nobody", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
+      // this.addMessage(0, "", "Christian Summers", "wheat dot taught private factor anyone donkey natural basic rising noted material headed development corner page make atom needed bad rule neighborhood peace east", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
+      // this.addMessage(0, "", "Sallie McKenzie", "sense graph living thumb wonderful shallow ten unknown till people distant review labor know surface aware pink sing behind season play because safe triangle", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
+      // this.addMessage(0, "", "Jus7Ace", "through apart thing percent state vapor mile slabs mad let struggle old whatever seems bridge truck suddenly gray expect hit judge increase fog difficulty", renderer.WHITE, renderer.RED, false, true, false);
     }
 
     public function onSetActive(active:Boolean) : void {
       this.graphics.clear();
-      if (active) renderer.rectangle(this, 0, curvu.Y_EXPANDED, cfg.config.W, cfg.config.H_EXPANDED, renderer.GRAY_48, 0.5);
-      else renderer.rectangle(this, 0, curvu.Y, cfg.config.W, cfg.config.H, renderer.GRAY_48, 0.5);
+      if (active) renderer.rectangle(this, 0, curvu.Y_EXPANDED, cfg.config.w, cfg.config.h_expanded, renderer.GRAY_48, 0.5);
+      else renderer.rectangle(this, 0, curvu.Y, cfg.config.w, cfg.config.h, renderer.GRAY_48, 0.5);
 
       this.input.onSetActive(active);
       this.inputBg.visible = active;
       this.is_active = active;
       if (current_tab != "ALL") this.input.setDefaultChannel("Whisper", renderer.WHISPER_COLOR);
+      if (this.draggable) {
+        this.draggable.visible = active;
+        this.bar.visible = active;
+      }
 
       // adjust the mask
       this.removeChild(this.clipping_mask);
-      if (active) this.clipping_mask = renderer.rectangle(new Sprite(), 0, curvu.Y_EXPANDED, cfg.config.W+100, cfg.config.H_EXPANDED + this.input.height, 0xFF00FF);
-      else this.clipping_mask = renderer.rectangle(new Sprite(), 0, curvu.Y, cfg.config.W, cfg.config.H, 0xFF00FF);
+      if (active) this.clipping_mask = renderer.rectangle(new Sprite(), 0, curvu.Y_EXPANDED, cfg.config.w+100, cfg.config.h_expanded + this.input.height, 0xFF00FF);
+      else this.clipping_mask = renderer.rectangle(new Sprite(), 0, curvu.Y, cfg.config.w, cfg.config.h, 0xFF00FF);
       this.container.mask = this.clipping_mask;
       this.addChild(this.clipping_mask);
 
@@ -96,9 +108,9 @@ package {
       this.buildTabs(this.current_tab != "ALL");
 
       if (!this.draggable) {
-        this.bar = renderer.rectangle(new Sprite(), cfg.config.W+1, curvu.Y_EXPANDED, 6, cfg.config.H_EXPANDED, renderer.GRAY_48, 0.85);
-        this.draggable = renderer.rectangle(new Sprite(), cfg.config.W+2, curvu.Y+1, 4, cfg.config.H_EXPANDED - 2, renderer.GRAY_12, 0.85);
-        this.scrollzone = renderer.rectangle(new Sprite(), -cfg.config.W, -curvu.Y_EXPANDED, cfg.config.W*10, cfg.config.H_EXPANDED*10, 0, 0);
+        this.bar = renderer.rectangle(new Sprite(), cfg.config.w+1, curvu.Y_EXPANDED, 6, cfg.config.h_expanded, renderer.GRAY_48, 0.85);
+        this.draggable = renderer.rectangle(new Sprite(), cfg.config.w+2, curvu.Y+1, 4, cfg.config.h_expanded - 2, renderer.GRAY_12, 0.85);
+        this.scrollzone = renderer.rectangle(new Sprite(), -cfg.config.w, -curvu.Y_EXPANDED, cfg.config.w*10, cfg.config.h_expanded*10, 0, 0);
         this.addChild(this.bar);
         this.addChild(this.draggable);
 
@@ -106,20 +118,19 @@ package {
         this.bar.addEventListener(MouseEvent.MOUSE_DOWN, onDrag);
         this.scrollzone.addEventListener(MouseEvent.MOUSE_UP, onRemoveDrag);
       }
-
       this.updateScroll();
     }
 
     private function updateScroll() : void {
       if (!this.draggable) return;
-      var height:int = Math.max(20, cfg.config.H_EXPANDED / (this.tabs[current_tab]["messages"].length+1));
-      var y:int = curvu.Y_EXPANDED + cfg.config.H_EXPANDED - Math.min(cfg.config.H_EXPANDED - 1, Math.max(height, (cfg.config.H_EXPANDED / (this.tabs[current_tab]["messages"].length+1)) * (indexScroll+1)));
+      var height:int = Math.max(20, cfg.config.h_expanded / (this.tabs[current_tab]["messages"].length+1));
+      var y:int = curvu.Y_EXPANDED + cfg.config.h_expanded - Math.min(cfg.config.h_expanded - 1, Math.max(height, (cfg.config.h_expanded / (this.tabs[current_tab]["messages"].length+1)) * (indexScroll+1)));
 
       this.draggable.graphics.clear();
       this.draggable.removeEventListener(MouseEvent.MOUSE_DOWN, onDrag);
       this.draggable.removeEventListener(MouseEvent.MOUSE_UP, onRemoveDrag);
       this.removeChild(this.draggable);
-      this.draggable = renderer.rectangle(new Sprite(), cfg.config.W+2, y, 4, height-1, renderer.GRAY_12, 0.85);
+      this.draggable = renderer.rectangle(new Sprite(), cfg.config.w+2, y, 4, height-1, renderer.GRAY_12, 0.85);
       this.draggable.addEventListener(MouseEvent.MOUSE_DOWN, onDrag);
       this.addChild(this.draggable);
 
@@ -134,7 +145,7 @@ package {
       var y:int = (is_active ? curvu.Y_EXPANDED : curvu.Y) - 25;
 
       this.removeChild(this.tabbar);
-      this.tabbar = renderer.rectangle(new Sprite(), 0, y, cfg.config.W, 24, 0, 0);
+      this.tabbar = renderer.rectangle(new Sprite(), 0, y, cfg.config.w, 24, 0, 0);
       this.addChild(this.tabbar);
 
       var tab:ChatTab = null;
@@ -157,7 +168,7 @@ package {
       for (i = 1; i < this.tabbar.numChildren; i++) {
         tab = this.tabbar.getChildAt(i) as ChatTab;
         var prev:ChatTab = this.tabbar.getChildAt(i-1) as ChatTab;
-        tab.x = prev.x + prev.width + 1;
+        tab.x = prev.x + prev.width - 1;
       }
     }
 
@@ -185,11 +196,12 @@ package {
           this.tabs[msg.author]["counter"] = 0;
         }
         this.tabs[msg.author]["messages"].push(msg);
-        if (this.tabs[msg.author]["messages"].length > cfg.config.MAX_MESSAGES) this.tabs[msg.author]["messages"].shift();
+        if (this.tabs[msg.author]["messages"].length > cfg.config.max_messages) this.tabs[msg.author]["messages"].shift();
+        if (msg.wasSent) this.current_tab = msg.author;
         buildTabs(this.current_tab != "ALL");
         if (this.current_tab != msg.author) this.updateTabCounter(msg.author, this.tabs[msg.author]["counter"] + 1);
         if (this.indexScroll == 0 && !this.menu) this.renderMessages(0);
-        ExternalInterface.call("POST_SOUND_EVENT", cfg.config.SOUND_WHISPER);
+        if (!msg.wasSent) ExternalInterface.call("POST_SOUND_EVENT", cfg.config.sound_whisperND_WHISPER);
         return;
       }
 
@@ -197,7 +209,7 @@ package {
       msg.addEventListener(MouseEvent.RIGHT_CLICK, onRightClick);
       this.tabs["ALL"]["messages"].push(msg);
 
-      if (this.tabs["ALL"]["messages"].length > cfg.config.MAX_MESSAGES)
+      if (this.tabs["ALL"]["messages"].length > cfg.config.max_messages)
         this.tabs["ALL"]["messages"].shift();
 
       this.updateScroll();
@@ -219,9 +231,9 @@ package {
 
       var message:MessageContainer = null;
       var i:int = this.tabs[current_tab]["messages"].length - len;
-      var y:int = (this.is_active) ? curvu.Y_EXPANDED + cfg.config.H_EXPANDED : curvu.Y + cfg.config.H;
+      var y:int = (this.is_active) ? curvu.Y_EXPANDED + cfg.config.h_expanded : curvu.Y + cfg.config.h;
       var counter:int = -1;
-      while (--i >= 0 && ++counter < cfg.config.MAX_MESSAGES) {
+      while (--i >= 0 && ++counter < cfg.config.max_messages) {
         message = this.tabs[current_tab]["messages"][i];
         message.y = y - message.height;
         message.theme = !(i % 2 == 0);
@@ -245,9 +257,9 @@ package {
     }
 
     private function onDrag(e:MouseEvent) : void {
-      var y:int = Math.min(cfg.config.H_EXPANDED - 1, Math.max(this.draggable.height, e.stageY - this.y - 25));
+      var y:int = Math.min(cfg.config.h_expanded - 1, Math.max(this.draggable.height, e.stageY - this.y - 25));
       var len:int = this.tabs[current_tab]["messages"].length;
-      var index:int = len - Math.round((y - curvu.Y_EXPANDED) / (cfg.config.H_EXPANDED / len)) - 1;
+      var index:int = len - Math.round((y - curvu.Y_EXPANDED) / (cfg.config.h_expanded / len)) - 1;
       if (index != indexScroll && index >= 0 && index < len) {
         indexScroll = index;
         this.renderMessages(indexScroll);
@@ -316,16 +328,11 @@ package {
     }
 
     public function clear() : void {
-      while (this.container.numChildren > 0)
-        this.container.removeChildAt(0);
-      while (this.tabbar.numChildren > 0)
-        this.tabbar.removeChildAt(0);
-      for each (var key:String in this.tabs) {
-        this.tabs[key]["messages"].length = 0;
-        this.updateTabCounter(key, 0);
+      for (var author:String in this.tabs) {
+        this.tabs[author]["messages"] = new Vector.<MessageContainer>();
+        this.tabs[author]["counter"] = 0;
       }
-      this.tabs = new Dictionary();
-      this.indexScroll = 0;
+      this.current_tab = "ALL";
       this.updateScroll();
     }
   }

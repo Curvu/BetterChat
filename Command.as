@@ -53,8 +53,6 @@ package {
         ExternalInterface.call("OnExecute", " ");
         break;
       default:
-        if((cmd == "w" || cmd == "whisper") && args.length > 1)
-          curvu.chat.current_tab = args[0];
         ExternalInterface.call("OnExecute", "/" + cmd + " " + args.join(" "));
       }
       return true;
@@ -77,13 +75,13 @@ package {
 
     private function printConfig() {
       curvu.chat.addExternalMessage("Config:");
-      curvu.chat.addExternalMessage("W: " + cfg.config.W);
-      curvu.chat.addExternalMessage("H: " + cfg.config.H);
-      curvu.chat.addExternalMessage("H_EXPANDED: " + cfg.config.H_EXPANDED);
-      curvu.chat.addExternalMessage("TEXT_SIZE: " + cfg.config.TEXT_SIZE);
-      curvu.chat.addExternalMessage("MAX_MESSAGES: " + cfg.config.MAX_MESSAGES);
-      curvu.chat.addExternalMessage("SOUND_WHISPER: " + cfg.config.SOUND_WHISPER);
-      curvu.chat.addExternalMessage("TIMESTAMP_FMT: " + cfg.config.TIMESTAMP_FMT);
+      curvu.chat.addExternalMessage("W: " + cfg.config.w);
+      curvu.chat.addExternalMessage("H: " + cfg.config.h);
+      curvu.chat.addExternalMessage("H_EXPANDED: " + cfg.config.h_expanded);
+      curvu.chat.addExternalMessage("TEXT_SIZE: " + cfg.config.text_size);
+      curvu.chat.addExternalMessage("MAX_MESSAGES: " + cfg.config.max_messages);
+      curvu.chat.addExternalMessage("SOUND_WHISPER: " + cfg.config.sound_whisperND_WHISPER);
+      curvu.chat.addExternalMessage("TIMESTAMP_FMT: " + cfg.config.timestamp_fmt);
     }
 
     private function printHelp() {
