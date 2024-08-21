@@ -17,7 +17,9 @@ package {
       "text_size": 13,
       "max_messages": 150,
       "sound_whisper": "Play_ui_forge_use",
-      "timestamp_fmt": "[${HOURS}:${MINUTES}:${SECONDS}]"
+      "show_hours": 1,
+      "show_minutes": 1,
+      "show_seconds": 1
     };
 
     public static const convert:Object = {
@@ -27,7 +29,9 @@ package {
       "text_size": [TYPE.INT, 8, 16],
       "max_messages": [TYPE.INT, 10, 1000],
       "sound_whisper": [TYPE.STRING],
-      "timestamp_fmt": [TYPE.STRING]
+      "show_hours": [TYPE.INT, 0, 1],
+      "show_minutes": [TYPE.INT, 0, 1],
+      "show_seconds": [TYPE.INT, 0, 1]
     };
 
     public function cfg() {

@@ -14,7 +14,8 @@ package {
       "Naxie": 0xD470A2,
       "Agum0n": 0xffc0cb,
       "_Carbon": 0xCF9FFF,
-      "KaiJiieow": 0xEE775E
+      "KaiJiieow": 0xEE775E,
+      "Suo_": 0x10729c
     }
 
     public static function darken(color:uint, amount:Number) : uint {
