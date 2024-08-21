@@ -81,7 +81,9 @@ package {
       curvu.chat.addExternalMessage("TEXT_SIZE: " + cfg.config.text_size);
       curvu.chat.addExternalMessage("MAX_MESSAGES: " + cfg.config.max_messages);
       curvu.chat.addExternalMessage("SOUND_WHISPER: " + cfg.config.sound_whisperND_WHISPER);
-      curvu.chat.addExternalMessage("TIMESTAMP_FMT: " + cfg.config.timestamp_fmt);
+      curvu.chat.addExternalMessage("SHOW_HOURS: " + cfg.config.show_hours);
+      curvu.chat.addExternalMessage("SHOW_MINUTES: " + cfg.config.show_minutes);
+      curvu.chat.addExternalMessage("SHOW_SECONDS: " + cfg.config.show_seconds);
     }
 
     private function printHelp() {
