@@ -9,9 +9,6 @@ package {
 
   import components.Menu;
 
-  // remove scrollbar - at least fix this shit??
-  // TODO: fix timestamp on cfg
-
   public class Chat extends MovieClip {
     private var container:Sprite;
     private var indexScroll:int = 0;
@@ -72,15 +69,6 @@ package {
 
       ExternalInterface.addCallback("onSetActive", this.onSetActive);
       ExternalInterface.addCallback("addMessage", this.addMessage);
-
-      // this.addMessage(0, "", "Sunseeker Guard", "gun ruler mother population brain girl unless east be arrange store became darkness upon anything explanation accident perfectly cold sun keep nice matter human", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
-      // this.addMessage(0, "", "Sunseeker Guard", "pupil shirt here tired promised anyone treated alive money plastic bar trouble broad decide pink appearance usually molecular particularly police for colony doll nice", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
-      // this.addMessage(0, "", "Sunseeker Guard", "give satisfied chart information card wonderful dog drop apart either route with nearest character per hello bear symbol signal outline caught graph wife tight", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
-      // this.addMessage(0, "", "Jus7Ace", "clay factory vote youth noun up remain train mile quarter simply grandmother melted return blow am settlers environment date let aboard last article kept", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
-      // this.addMessage(0, "", "Allen Moody", "topic sent supply specific stuck simplest declared poor distant play buy matter smaller yesterday shore lower point interest afternoon likely plan fun color nobody", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
-      // this.addMessage(0, "", "Christian Summers", "wheat dot taught private factor anyone donkey natural basic rising noted material headed development corner page make atom needed bad rule neighborhood peace east", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
-      // this.addMessage(0, "", "Sallie McKenzie", "sense graph living thumb wonderful shallow ten unknown till people distant review labor know surface aware pink sing behind season play because safe triangle", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
-      // this.addMessage(0, "", "Jus7Ace", "through apart thing percent state vapor mile slabs mad let struggle old whatever seems bridge truck suddenly gray expect hit judge increase fog difficulty", renderer.WHITE, renderer.RED, false, true, false);
     }
 
     public function onSetActive(active:Boolean) : void {
@@ -257,9 +245,9 @@ package {
     }
 
     private function onDrag(e:MouseEvent) : void {
-      var y:int = Math.min(cfg.config.h_expanded - 1, Math.max(this.draggable.height, e.stageY - this.y - 25));
+      var y:int = curvu.clamp(e.stageY - this.y - curvu.Y_EXPANDED / 2, curvu.Y_EXPANDED + 1, curvu.Y_EXPANDED + cfg.config.h_expanded - 1);
       var len:int = this.tabs[current_tab]["messages"].length;
-      var index:int = len - Math.round((y - curvu.Y_EXPANDED) / (cfg.config.h_expanded / len)) - 1;
+      var index:int = Math.round(len - (y - curvu.Y_EXPANDED) / (cfg.config.h_expanded / len) - 0.4);
       if (index != indexScroll && index >= 0 && index < len) {
         indexScroll = index;
         this.renderMessages(indexScroll);

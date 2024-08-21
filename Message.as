@@ -45,7 +45,6 @@ package {
       text = text.replace("${CHANNEL}", channel);
       text = text.replace("${ME}", renderer.colored("me", renderer.rgbToHex(author_color)));
       text = text.replace("${AUTHOR}", renderer.colored(author, renderer.rgbToHex(curvu.users[author] || author_color)));
-      trace(curvu.users[author] || author_color);
       text = text.replace("${CONTENT}", content);
 
       message.htmlText = text;
