@@ -4,6 +4,7 @@ An upgrade of the chat system in Trove, with more features and alot more customi
 ## Features
 - Config file for easy customization
 - Chat tabs for whispers
+- Aliases for commands
 - More chat commands
   - //who - Prints the number of players in the world
   - /clear - Clears the chat
@@ -21,14 +22,15 @@ The mod has a config file that allows you to change some of the things:
 ```bash
 [chat.swf]
 w = 400 # between 200 and 500
-h = 250 # between 100 and 410
-h_expanded = 350 # between 100 and 410
+h = 250 # between 100 and 700
+h_expanded = 350 # between 100 and 700
 sound_whisper = Play_ui_forge_use
 max_messages = 150 # between 10 and 1000
 text_size = 13 # between 8 and 16
 show_hours = 1 # 0 = false, 1 = true
 show_minutes = 1 # 0 = false, 1 = true
 show_seconds = 1 # 0 = false, 1 = true
+aliases = fx0:fxenable 0,fx1:fxenable 1 # alias:command,alias:command,...
 ```
 
 ## Credits

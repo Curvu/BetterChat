@@ -10,10 +10,13 @@ package {
   import components.Menu;
 
   // TODO: auto filter out messages with "TROVE     FLUX . COM" in them (or similar)
+  // TODO: party thing??
+  // TODO: logos for the clubs?
+  // TODO: emojis?
 
   public class Chat extends MovieClip {
     private var container:Sprite;
-    private var indexScroll:int = 0;
+    public var indexScroll:int = 0;
 
     public var input:ChatInput;
     private var inputBg:Sprite;
@@ -226,7 +229,7 @@ package {
       curvu.cmd.zenMode = last_state;
     }
 
-    private function renderMessages(len:int) : void {
+    public function renderMessages(len:int) : void {
       this.onDisableMenu();
 
       while (this.container.numChildren > 0)

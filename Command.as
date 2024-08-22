@@ -3,19 +3,12 @@ package {
   import flash.events.TimerEvent;
   import flash.utils.Timer;
 
-  // TODO: Popular chats
-
   public class Command {
     public var blockPrint:Boolean = false;
     public var zenMode:Boolean = false;
     public var whoCommandSent:Boolean = false;
     public var whoCounter:uint = 0;
     public var whoTimer:Timer = new Timer(77, 1);
-
-    private var aliases:Object = {
-      "fx0": "fxenable 0",
-      "fx1": "fxenable 1"
-    };
 
     public function Command() {
       super();
@@ -25,7 +18,7 @@ package {
       if(input.charAt(0) != "/") return false;
       var args:Array = input.split(" ");
       var cmd:String = args.shift().substr(1).toLowerCase();
-      cmd = this.aliases[cmd] || cmd;
+      cmd = cfg.config.aliases[cmd] || cmd;
 
       switch(cmd) {
       case "/who":
@@ -64,11 +57,13 @@ package {
       curvu.chat.addExternalMessage("There are " + this.whoCounter + " players in the world.");
     }
 
-    public function startTimer(number:uint) {
+    public function startTimer(number:uint, message:Message) {
       var timer:Timer = new Timer(1000, number);
       timer.addEventListener(TimerEvent.TIMER, function(e:TimerEvent) {
-        if(timer.currentCount != number) curvu.chat.addExternalMessage("" + (number - timer.currentCount));
-        else curvu.chat.addExternalMessage("GO! GO! GO!");
+        // edit the message content to show the countdown
+        message.content = "" + (number - timer.currentCount);
+        message.formatMessage(timer.currentCount != number ? "timer_going" : "timer_end");
+        curvu.chat.renderMessages(curvu.chat.indexScroll);
       });
       timer.start();
     }

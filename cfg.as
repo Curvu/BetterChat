@@ -3,11 +3,11 @@ package {
     public static const TYPE:Object = {
       // "BOOL":0,
       // "UINT":1,
-      "INT":2,
+      "INT": 2,
       // "FLOAT":3,
-      "STRING":4
+      "STRING": 4,
       // "LIST":5,
-      // "MAP":6
+      "MAP": 6
     };
 
     public static var config:Object = {
@@ -19,7 +19,8 @@ package {
       "sound_whisper": "Play_ui_forge_use",
       "show_hours": 1,
       "show_minutes": 1,
-      "show_seconds": 1
+      "show_seconds": 1,
+      "aliases": {}
     };
 
     public static const convert:Object = {
@@ -31,7 +32,8 @@ package {
       "sound_whisper": [TYPE.STRING],
       "show_hours": [TYPE.INT, 0, 1],
       "show_minutes": [TYPE.INT, 0, 1],
-      "show_seconds": [TYPE.INT, 0, 1]
+      "show_seconds": [TYPE.INT, 0, 1],
+      "aliases": [TYPE.MAP]
     };
 
     public function cfg() {
@@ -46,6 +48,13 @@ package {
         break;
       case TYPE.STRING:
         config[key] = val;
+        break;
+      case TYPE.MAP:
+        var arr:Array = val.split(",");
+        for(var i:int = 0; i < arr.length; i++) {
+          var pair:Array = arr[i].split(":");
+          config[key][pair[0]] = pair[1];
+        }
         break;
       default:
         break;

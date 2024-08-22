@@ -36,6 +36,7 @@ package {
             ExternalInterface.call("OnExecute", "I'm dumb, please call me out on it! :)");
           }
         }
+        // curvu.chat.addMessage(0, "World", "Jus7Ace", (curvu.chat.current_tab == "ALL" ? "" : "/w " + curvu.chat.current_tab + " ") + this.inputText.text, renderer.WHITE, renderer.WHITE, false, true, false);
         ExternalInterface.call("OnExecute", (curvu.chat.current_tab == "ALL" ? "" : "/w " + curvu.chat.current_tab + " ") + this.inputText.text);
       } else if(e.keyCode == Keyboard.SPACE && curvu.chat.current_tab == "ALL") {
         ExternalInterface.call("OnAutocomplete", this.inputText.text);

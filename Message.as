@@ -23,6 +23,8 @@ package {
       "lootbox": "[${CHANNEL}][${AUTHOR}]: ${CONTENT}",
       "me": "[${CHANNEL}] ${AUTHOR} ${CONTENT}",
       "timer": " ${AUTHOR} started a timer of ${CONTENT} seconds.", // same as broadcast
+      "timer_going": " ${AUTHOR} timer is still going for ${CONTENT} seconds.", // saa
+      "timer_end": " ${AUTHOR} GO! GO! GO!", // saa
       "dumb": "[${CHANNEL}][${AUTHOR}]: I'm dumb :)"
     }
 
@@ -38,8 +40,8 @@ package {
       this.message = renderer.text("", 5, 2, cfg.config.text_size, "left", cfg.config.w-5, 0, true);
     }
 
-    private function formatMessage(fmt:String) : TextField {
-      var text:String = renderer.colored(Timestamp.get() + format[fmt], renderer.rgbToHex(fmt == "me" ? curvu.users[author] || author_color : fmt == "timer" ? renderer.RED : content_color));
+    public function formatMessage(fmt:String) : TextField {
+      var text:String = renderer.colored(Timestamp.get() + format[fmt], renderer.rgbToHex(fmt == "me" ? curvu.users[author] || author_color : fmt == "timer" || fmt == "timer_going" || fmt == "timer_end" ? renderer.RED : content_color));
 
       // Replace the placeholders
       text = text.replace("${CHANNEL}", channel);
@@ -80,7 +82,7 @@ package {
         var temp:Number = Number(this.content);
         if(isNaN(temp)) fmt = "default";
         else {
-          if (temp > 0 && temp < 26) curvu.cmd.startTimer(temp);
+          if (temp > 0 && temp < 26) curvu.cmd.startTimer(temp, this);
           else fmt = "dumb";
         }
       }
