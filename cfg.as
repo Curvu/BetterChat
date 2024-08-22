@@ -13,7 +13,7 @@ package {
     public static var config:Object = {
       "w": 400,
       "h": 250,
-      "h_expanded": 350,
+      "h_expanded": 400,
       "text_size": 13,
       "max_messages": 150,
       "sound_whisper": "Play_ui_forge_use",
@@ -24,8 +24,8 @@ package {
 
     public static const convert:Object = {
       "w": [TYPE.INT, 200, 500],
-      "h": [TYPE.INT, 100, 410],
-      "h_expanded": [TYPE.INT, 100, 410],
+      "h": [TYPE.INT, 100, 700],
+      "h_expanded": [TYPE.INT, 100, 700],
       "text_size": [TYPE.INT, 8, 16],
       "max_messages": [TYPE.INT, 10, 1000],
       "sound_whisper": [TYPE.STRING],

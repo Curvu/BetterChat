@@ -1,8 +1,7 @@
 package {
   public class curvu {
-    public static const Y:int = 125;
-    public static const Y_EXPANDED:int = 25;
-
+    public static var Y:int = 25;
+    public static var Y_EXPANDED:int = 25;
     public static var cmd:Command = new Command();
     public static var chat:Chat;
 

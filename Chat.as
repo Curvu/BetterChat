@@ -9,6 +9,8 @@ package {
 
   import components.Menu;
 
+  // TODO: auto filter out messages with "TROVE     FLUX . COM" in them (or similar)
+
   public class Chat extends MovieClip {
     private var container:Sprite;
     private var indexScroll:int = 0;
@@ -39,6 +41,8 @@ package {
       var timer:Timer = new Timer(100, 1);
       timer.addEventListener(TimerEvent.TIMER_COMPLETE, configUI);
       timer.start();
+      curvu.Y_EXPANDED = 725 - cfg.config.h_expanded;
+      curvu.Y = cfg.config.h_expanded - cfg.config.h + curvu.Y_EXPANDED;
     }
 
     private function configUI(e:TimerEvent) {
@@ -69,6 +73,17 @@ package {
 
       ExternalInterface.addCallback("onSetActive", this.onSetActive);
       ExternalInterface.addCallback("addMessage", this.addMessage);
+
+      // this.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) { onSetActive(!is_active); });
+      // this.addMessage(0, "", "Sunseeker Guard", "gun ruler mother population brain girl unless east be arrange store became darkness upon anything explanation accident perfectly cold sun keep nice matter human", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
+      // this.addMessage(0, "", "Sunseeker Guard", "pupil shirt here tired promised anyone treated alive money plastic bar trouble broad decide pink appearance usually molecular particularly police for colony doll nice", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
+      // this.addMessage(0, "", "Sunseeker Guard", "give satisfied chart information card wonderful dog drop apart either route with nearest character per hello bear symbol signal outline caught graph wife tight", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
+      // this.addMessage(0, "", "Jus7Ace", "clay factory vote youth noun up remain train mile quarter simply grandmother melted return blow am settlers environment date let aboard last article kept", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
+      // this.addMessage(0, "", "Allen Moody", "topic sent supply specific stuck simplest declared poor distant play buy matter smaller yesterday shore lower point interest afternoon likely plan fun color nobody", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
+      // this.addMessage(0, "", "Christian Summers", "wheat dot taught private factor anyone donkey natural basic rising noted material headed development corner page make atom needed bad rule neighborhood peace east", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
+      // this.addMessage(0, "", "Sallie McKenzie", "sense graph living thumb wonderful shallow ten unknown till people distant review labor know surface aware pink sing behind season play because safe triangle", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
+      // this.addMessage(0, "", "Jus7Ace", "through apart thing percent state vapor mile slabs mad let struggle old whatever seems bridge truck suddenly gray expect hit judge increase fog difficulty", renderer.WHITE, renderer.RED, false, true, false);
+      // this.addMessage(0, "", "Gothika_47", "through apart thing percent state vapor mile slabs mad let struggle old whatever seems bridge truck suddenly gray expect hit judge increase fog difficulty", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
     }
 
     public function onSetActive(active:Boolean) : void {
@@ -156,7 +171,7 @@ package {
       for (i = 1; i < this.tabbar.numChildren; i++) {
         tab = this.tabbar.getChildAt(i) as ChatTab;
         var prev:ChatTab = this.tabbar.getChildAt(i-1) as ChatTab;
-        tab.x = prev.x + prev.width - 1;
+        tab.x = prev.x + prev.width + (prev.text == "ALL" ? 1 : -2);
       }
     }
 
