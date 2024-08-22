@@ -29,6 +29,16 @@ package {
       return !curvu.cmd.blockPrint;
     }
 
+    public function isBlacklisted() : Boolean {
+      var trimmed:String = this.message.content.split(" ").join("").toLowerCase();
+      for each(var blacklisted:String in cfg.config.blacklisted) {
+        if (blacklisted.length <= 0) continue;
+        if (trimmed.indexOf(blacklisted) > -1)
+          return true;
+      }
+      return false;
+    }
+
     public function isWhisper() : Boolean {
       return this.message.content_color == renderer.WHISPER_COLOR && this.message.channel.length <= 0;
     }

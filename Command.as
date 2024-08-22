@@ -41,10 +41,6 @@ package {
         printHelp();
         ExternalInterface.call("OnExecute", " ");
         break;
-      case "config":
-        printConfig();
-        ExternalInterface.call("OnExecute", " ");
-        break;
       default:
         ExternalInterface.call("OnExecute", "/" + cmd + " " + args.join(" "));
       }
@@ -64,21 +60,9 @@ package {
         message.content = "" + (number - timer.currentCount);
         message.formatMessage(timer.currentCount != number ? "timer_going" : "timer_end");
         curvu.chat.renderMessages(curvu.chat.indexScroll);
+        ExternalInterface.call("POST_SOUND_EVENT", cfg.config.sound_timer);
       });
       timer.start();
-    }
-
-    private function printConfig() {
-      curvu.chat.addExternalMessage("Config:");
-      curvu.chat.addExternalMessage("W: " + cfg.config.w);
-      curvu.chat.addExternalMessage("H: " + cfg.config.h);
-      curvu.chat.addExternalMessage("H_EXPANDED: " + cfg.config.h_expanded);
-      curvu.chat.addExternalMessage("TEXT_SIZE: " + cfg.config.text_size);
-      curvu.chat.addExternalMessage("MAX_MESSAGES: " + cfg.config.max_messages);
-      curvu.chat.addExternalMessage("SOUND_WHISPER: " + cfg.config.sound_whisperND_WHISPER);
-      curvu.chat.addExternalMessage("SHOW_HOURS: " + cfg.config.show_hours);
-      curvu.chat.addExternalMessage("SHOW_MINUTES: " + cfg.config.show_minutes);
-      curvu.chat.addExternalMessage("SHOW_SECONDS: " + cfg.config.show_seconds);
     }
 
     private function printHelp() {

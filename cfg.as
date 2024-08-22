@@ -6,7 +6,7 @@ package {
       "INT": 2,
       // "FLOAT":3,
       "STRING": 4,
-      // "LIST":5,
+      "LIST":5,
       "MAP": 6
     };
 
@@ -17,10 +17,12 @@ package {
       "text_size": 13,
       "max_messages": 150,
       "sound_whisper": "Play_ui_forge_use",
+      "sound_timer": "Play_pvp_ui_match_start",
       "show_hours": 1,
       "show_minutes": 1,
       "show_seconds": 1,
-      "aliases": {}
+      "aliases": {},
+      "blacklisted": []
     };
 
     public static const convert:Object = {
@@ -30,10 +32,12 @@ package {
       "text_size": [TYPE.INT, 8, 16],
       "max_messages": [TYPE.INT, 10, 1000],
       "sound_whisper": [TYPE.STRING],
+      "sound_timer": [TYPE.STRING],
       "show_hours": [TYPE.INT, 0, 1],
       "show_minutes": [TYPE.INT, 0, 1],
       "show_seconds": [TYPE.INT, 0, 1],
-      "aliases": [TYPE.MAP]
+      "aliases": [TYPE.MAP],
+      "blacklisted": [TYPE.LIST]
     };
 
     public function cfg() {
@@ -55,6 +59,9 @@ package {
           var pair:Array = arr[i].split(":");
           config[key][pair[0]] = pair[1];
         }
+        break;
+      case TYPE.LIST:
+        config[key] = val.split(",");
         break;
       default:
         break;

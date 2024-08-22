@@ -9,7 +9,6 @@ package {
 
   import components.Menu;
 
-  // TODO: auto filter out messages with "TROVE     FLUX . COM" in them (or similar)
   // TODO: party thing??
   // TODO: logos for the clubs?
   // TODO: emojis?
@@ -84,8 +83,8 @@ package {
       // this.addMessage(0, "", "Jus7Ace", "clay factory vote youth noun up remain train mile quarter simply grandmother melted return blow am settlers environment date let aboard last article kept", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
       // this.addMessage(0, "", "Allen Moody", "topic sent supply specific stuck simplest declared poor distant play buy matter smaller yesterday shore lower point interest afternoon likely plan fun color nobody", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
       // this.addMessage(0, "", "Christian Summers", "wheat dot taught private factor anyone donkey natural basic rising noted material headed development corner page make atom needed bad rule neighborhood peace east", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
-      // this.addMessage(0, "", "Sallie McKenzie", "sense graph living thumb wonderful shallow ten unknown till people distant review labor know surface aware pink sing behind season play because safe triangle", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
-      // this.addMessage(0, "", "Jus7Ace", "through apart thing percent state vapor mile slabs mad let struggle old whatever seems bridge truck suddenly gray expect hit judge increase fog difficulty", renderer.WHITE, renderer.RED, false, true, false);
+      // this.addMessage(0, "", "Sallie McKenzie", "sense graph living thumb wonderful shallow ten unknown till people distant review labor know surface aware pink sing behind season play because safe triangle", renderer.WHITE, renderer.RED, false, true, false);
+      // this.addMessage(0, "", "Jus7Ace", "TRove flux . com through apart thing percent state vapor mile slabs mad let struggle old whatever seems bridge truck suddenly gray expect hit judge increase fog difficulty", renderer.WHITE, renderer.RED, false, true, false);
       // this.addMessage(0, "", "Gothika_47", "through apart thing percent state vapor mile slabs mad let struggle old whatever seems bridge truck suddenly gray expect hit judge increase fog difficulty", renderer.WHISPER_COLOR, renderer.RED, false, true, false);
     }
 
@@ -194,6 +193,7 @@ package {
     public function addMessage(_:uint, channel:String, author:String, content:String, content_color:uint, author_color:uint, wasSent:Boolean, showAuthor:Boolean = true, broadcast:Boolean = false) : void {
       var msg:MessageContainer = new MessageContainer(channel, author, content, content_color, author_color, wasSent, showAuthor, broadcast);
       if (!msg.whoHandler()) return;
+      if (msg.isBlacklisted()) return;
       if (curvu.cmd.zenMode) return;
       if (msg.isWhisper()) {
         if (!this.tabs[msg.author]) {
@@ -207,7 +207,7 @@ package {
         buildTabs(this.current_tab != "ALL");
         if (this.current_tab != msg.author) this.updateTabCounter(msg.author, this.tabs[msg.author]["counter"] + 1);
         if (this.indexScroll == 0 && !this.menu) this.renderMessages(0);
-        if (!msg.wasSent) ExternalInterface.call("POST_SOUND_EVENT", cfg.config.sound_whisperND_WHISPER);
+        if (!msg.wasSent) ExternalInterface.call("POST_SOUND_EVENT", cfg.config.sound_whisper);
         return;
       }
 
