@@ -30,20 +30,43 @@ package {
         break;
       case "clear":
         curvu.chat.clear();
-        ExternalInterface.call("OnExecute", " ");
         break;
       case "zen":
         this.zenMode = !this.zenMode;
         curvu.chat.addExternalMessage("Zen mode " + (this.zenMode ? "enabled." : "disabled."));
-        ExternalInterface.call("OnExecute", " ");
         break;
       case "help":
         printHelp();
-        ExternalInterface.call("OnExecute", " ");
+        break;
+      case "config":
+        // Print the config
+        if (args.length == 0) {
+          printConfig();
+          break;
+        }
+
+        // Set the config
+        if (args.length != 2) {
+          curvu.chat.addExternalMessage("Syntax: /config {key} {new_value}");
+          break;
+        }
+
+        var key:String = args[0];
+        var value:String = args[1];
+        if (cfg.config[key] == undefined) {
+          curvu.chat.addExternalMessage("Invalid key: " + key);
+          break;
+        }
+
+        cfg.onLoadModConfig(key, value);
+        curvu.chat.reload();
+        cfg.saveConfig(key);
         break;
       default:
         ExternalInterface.call("OnExecute", "/" + cmd + " " + args.join(" "));
+        return true;
       }
+      ExternalInterface.call("OnExecute", " ");
       return true;
     }
 
@@ -70,8 +93,27 @@ package {
       curvu.chat.addExternalMessage(" //who - Prints the number of players in the world");
       curvu.chat.addExternalMessage(" /clear - Clears the chat");
       curvu.chat.addExternalMessage(" /zen - Toggles zen mode (disable/enable chat)");
+      curvu.chat.addExternalMessage(" /config - Prints the current config");
+      curvu.chat.addExternalMessage(" /config {key} {new_value} - Sets the config key to the new value");
       curvu.chat.addExternalMessage(" timer/{number} - Starts a countdown timer in the interval [1, 25]");
       curvu.chat.addExternalMessage(" me/ {message} - Sends a message with the same color of your name");
+    }
+
+    private function printConfig() {
+      curvu.chat.addExternalMessage("Current config:");
+      var temp:Vector.<String>;
+      for (var key:String in cfg.config) {
+        if (cfg.convert[key][0] == cfg.TYPE.MAP) {
+          temp = new Vector.<String>();
+          for (var k:String in cfg.config[key]) temp.push(k + ":" + cfg.config[key][k]);
+          curvu.chat.addExternalMessage(key + " = " + temp.join(","));
+          continue;
+        } else if (cfg.convert[key][0] == cfg.TYPE.LIST) {
+          curvu.chat.addExternalMessage(key + " = " + cfg.config[key].join(","));
+          continue;
+        }
+        curvu.chat.addExternalMessage(key + " = " + cfg.config[key]);
+      }
     }
   }
 }

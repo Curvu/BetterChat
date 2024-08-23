@@ -43,15 +43,15 @@ package {
       var timer:Timer = new Timer(100, 1);
       timer.addEventListener(TimerEvent.TIMER_COMPLETE, configUI);
       timer.start();
-      curvu.Y_EXPANDED = 725 - cfg.config.h_expanded;
-      curvu.Y = cfg.config.h_expanded - cfg.config.h + curvu.Y_EXPANDED;
     }
 
     private function configUI(e:TimerEvent) {
+      curvu.Y_EXPANDED = 725 - cfg.config.h_expanded;
+      curvu.Y = cfg.config.h_expanded - cfg.config.h + curvu.Y_EXPANDED;
       this.tabs["ALL"] = new Dictionary();
       this.tabs["ALL"]["messages"] = new Vector.<MessageContainer>();
 
-      renderer.rectangle(this, 0, curvu.Y, cfg.config.w, cfg.config.h, renderer.GRAY_48, 0.5);
+      renderer.rectangle(this, 0, curvu.Y, cfg.config.w, cfg.config.h, renderer.GRAY_48, 0);
 
       this.inputBg = renderer.rectangle(new Sprite(), 0, curvu.Y_EXPANDED + cfg.config.h_expanded, cfg.config.w, 24, renderer.GRAY_28, 0.85);
       this.inputBg.visible = false;
@@ -91,7 +91,7 @@ package {
     public function onSetActive(active:Boolean) : void {
       this.graphics.clear();
       if (active) renderer.rectangle(this, 0, curvu.Y_EXPANDED, cfg.config.w, cfg.config.h_expanded, renderer.GRAY_48, 0.5);
-      else renderer.rectangle(this, 0, curvu.Y, cfg.config.w, cfg.config.h, renderer.GRAY_48, 0.5);
+      else renderer.rectangle(this, 0, curvu.Y, cfg.config.w, cfg.config.h, renderer.GRAY_48, 0);
 
       this.input.onSetActive(active);
       this.inputBg.visible = active;
@@ -340,6 +340,18 @@ package {
       }
       this.current_tab = "ALL";
       this.updateScroll();
+    }
+
+    public function reload() : void {
+      clear();
+      curvu.Y_EXPANDED = 725 - cfg.config.h_expanded;
+      curvu.Y = cfg.config.h_expanded - cfg.config.h + curvu.Y_EXPANDED;
+      this.removeChild(this.inputBg);
+      this.inputBg = renderer.rectangle(new Sprite(), 0, curvu.Y_EXPANDED + cfg.config.h_expanded, cfg.config.w, 24, renderer.GRAY_28, 0.85);
+      this.addChildAt(this.inputBg, 0);
+      this.removeChild(this.bar);
+      this.bar = renderer.rectangle(new Sprite(), cfg.config.w+1, curvu.Y_EXPANDED, 6, cfg.config.h_expanded, renderer.GRAY_48, 0.85);
+      this.addChild(this.bar);
     }
   }
 }

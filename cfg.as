@@ -1,4 +1,6 @@
 package {
+  import flash.external.ExternalInterface;
+
   public class cfg {
     public static const TYPE:Object = {
       // "BOOL":0,
@@ -68,6 +70,30 @@ package {
       default:
         break;
       }
+    }
+
+    public static function saveConfig(key) : void {
+      var out:String = "";
+      var val:* = config[key];
+      if(config[key] == null) return;
+      switch(convert[key][0]) {
+      case TYPE.INT:
+        out = Number(val).toString();
+        break;
+      case TYPE.STRING:
+        out = val;
+        break;
+      case TYPE.MAP:
+        for(var k:String in val) out += k + ":" + val[k] + ",";
+        out = out.slice(0, -1);
+        break;
+      case TYPE.LIST:
+        out = val.join(",");
+        break;
+      default:
+        break;
+      }
+      ExternalInterface.call("UIComponent.OnSaveConfig", "chat.swf", key, out);
     }
   }
 }
