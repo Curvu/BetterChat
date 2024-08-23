@@ -60,7 +60,7 @@ package {
         message.content = "" + (number - timer.currentCount);
         message.formatMessage(timer.currentCount != number ? "timer_going" : "timer_end");
         curvu.chat.renderMessages(curvu.chat.indexScroll);
-        ExternalInterface.call("POST_SOUND_EVENT", cfg.config.sound_timer);
+        ExternalInterface.call("POST_SOUND_EVENT", timer.currentCount == number ? cfg.config.sound_timer_finished : cfg.config.sound_timer);
       });
       timer.start();
     }
