@@ -1,9 +1,12 @@
 package {
+  import components.Party;
+
   public class curvu {
     public static var Y:int = 25;
     public static var Y_EXPANDED:int = 25;
     public static var cmd:Command = new Command();
     public static var chat:Chat;
+    public static var party:Party;
 
     public static var users:Object = {
       "Jus7Ace": 0xADFF00,

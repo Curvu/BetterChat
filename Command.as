@@ -3,6 +3,8 @@ package {
   import flash.events.TimerEvent;
   import flash.utils.Timer;
 
+  import components.Party;
+
   public class Command {
     public var blockPrint:Boolean = false;
     public var zenMode:Boolean = false;
@@ -13,6 +15,7 @@ package {
     public var searchedStat:String = "#";
     public var statsCounter:uint = 0;
     public var statsTimer:Timer = new Timer(77, 1);
+    public var ignoreWho:Boolean = false;
 
     public function Command() {
       super();
@@ -38,6 +41,28 @@ package {
           this.searchedStat = args.join(" ").toLowerCase();
         }
         ExternalInterface.call("OnExecute", "/stats");
+        break;
+      case "party":
+        if (!curvu.party) {
+          curvu.party = new Party();
+          curvu.chat.addChild(curvu.party);
+        }
+        curvu.party.visible = true;
+        if (args.length > 0) {
+          var arr:Array = args[0].split(";");
+          for (var i in arr) curvu.party.addToParty(arr[i]);
+        }
+        break;
+      case "/party": // add to party everyone that is in the //who command
+        if (!curvu.party) {
+          curvu.party = new Party();
+          curvu.chat.addChild(curvu.party);
+        }
+        curvu.party.visible = true;
+        this.ignoreWho = true;
+        this.blockPrint = true;
+        this.whoCommandSent = true;
+        ExternalInterface.call("OnExecute", "/who");
         break;
       case "clear":
         curvu.chat.clear();
@@ -84,7 +109,8 @@ package {
     public function whoCounterOutput(e:TimerEvent) {
       this.whoCommandSent = false;
       this.blockPrint = false;
-      curvu.chat.addExternalMessage("There are " + this.whoCounter + " players in the world.");
+      if (!this.ignoreWho) curvu.chat.addExternalMessage("There are " + this.whoCounter + " players in the world.");
+      this.ignoreWho = false;
     }
 
     public function statsCounterOutput(e:TimerEvent) {
@@ -110,6 +136,8 @@ package {
       curvu.chat.addExternalMessage("New commands:");
       curvu.chat.addExternalMessage(" //who - Prints the number of players in the world");
       curvu.chat.addExternalMessage(" /stats {lookup} - Prints the stats for the given lookup");
+      curvu.chat.addExternalMessage(" /party {name1;name2;...} - Adds the given names to the party list");
+      curvu.chat.addExternalMessage(" //party - Add everyone that are in the world to the party list");
       curvu.chat.addExternalMessage(" /clear - Clears the chat");
       curvu.chat.addExternalMessage(" /zen - Toggles zen mode (disable/enable chat)");
       curvu.chat.addExternalMessage(" /config - Prints the current config");

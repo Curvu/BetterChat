@@ -25,7 +25,8 @@ package {
       "show_minutes": 1,
       "show_seconds": 1,
       "aliases": {},
-      "blacklisted": []
+      "blacklisted": [],
+      "party": []
     };
 
     public static const convert:Object = {
@@ -41,7 +42,8 @@ package {
       "show_minutes": [TYPE.INT, 0, 1],
       "show_seconds": [TYPE.INT, 0, 1],
       "aliases": [TYPE.MAP],
-      "blacklisted": [TYPE.LIST]
+      "blacklisted": [TYPE.LIST],
+      "party": [TYPE.LIST]
     };
 
     public function cfg() {
@@ -65,7 +67,10 @@ package {
         }
         break;
       case TYPE.LIST:
-        config[key] = val.split(",");
+        arr = val.split(",");
+        for each(var item:String in arr)
+          if(item.length > 0)
+            config[key].push(item);
         break;
       default:
         break;

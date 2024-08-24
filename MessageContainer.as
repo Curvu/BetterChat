@@ -20,6 +20,10 @@ package {
       if (!(curvu.cmd.whoCommandSent && this.message.channel == "" && this.message.content.indexOf(": (") > -1))
         return true;
 
+      if (curvu.cmd.ignoreWho) {
+        curvu.party.addToParty(this.message.content.split(": (")[0]);
+      }
+
       curvu.cmd.whoCounter++;
       if (curvu.cmd.whoTimer != null) {
         curvu.cmd.whoTimer.stop();
