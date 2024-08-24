@@ -10,6 +10,8 @@ package {
   import components.Menu;
   import components.Party;
 
+  // TODO: Party - better design :/ (this is a mess)
+  // TODO: BetterFriendlist integration??
   // TODO: logos for the clubs?
   // TODO: emojis?
 

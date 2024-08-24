@@ -15,7 +15,7 @@ package components {
     public function Party() { // I AM NOT ADDING A SCROLLBAR TO THIS COMPONENT FUCK THAT
       super();
       this.x = cfg.config.w + 8;
-      this.y = curvu.Y + cfg.config.h - 150;
+      this.y = curvu.Y + cfg.config.h - 155;
 
       this.bg = renderer.rectangle(new Sprite(), 0, 0, 150, 155, renderer.GRAY_12);
       this.bg = renderer.rectangle(this.bg, 1, 1, 148, 153, renderer.GRAY_34);

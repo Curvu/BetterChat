@@ -33,3 +33,4 @@ blacklisted = troveflux.com # word1,word2,... ("TROVE     FLUX . COM" it will al
 ## Credits
 - Geoflay, for helping me with the config file
 - TheSymbols Chat Mod (Edited by Sqze & Axodius), for inspiring me for some features
+- Irradiant, for feedback and testing and some feature ideas
