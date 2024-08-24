@@ -29,6 +29,19 @@ package {
       return !curvu.cmd.blockPrint;
     }
 
+    public function statsHandler() : Boolean {
+      if (!(curvu.cmd.statsCommandSent && this.message.content_color == renderer.STATS_COLOR))
+        return true;
+
+      curvu.cmd.statsCounter++;
+      if (curvu.cmd.statsTimer != null) {
+        curvu.cmd.statsTimer.stop();
+        curvu.cmd.statsTimer.addEventListener(TimerEvent.TIMER, curvu.cmd.statsCounterOutput);
+        curvu.cmd.statsTimer.start();
+      }
+      return (this.message.content.toLowerCase().indexOf(curvu.cmd.searchedStat) > -1);
+    }
+
     public function isBlacklisted() : Boolean {
       var trimmed:String = this.message.content.split(" ").join("").toLowerCase();
       for each(var blacklisted:String in cfg.config.blacklisted) {

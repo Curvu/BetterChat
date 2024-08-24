@@ -5,12 +5,7 @@ An upgrade of the chat system in Trove, with more features and alot more customi
 - Config file for easy customization
 - Chat tabs for whispers
 - Aliases for commands
-- More chat commands
-  - //who - Prints the number of players in the world
-  - /clear - Clears the chat
-  - /zen - Toggles zen mode (disable/enable chat)
-  - timer/{number} - Starts a countdown timer in the interval [1, 25]
-  - me/ {message} - Sends a message with the same color of your name
+- More chat commands, you can see them with `/help`
 
 ## Installation
 1. (trovessauros link)

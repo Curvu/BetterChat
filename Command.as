@@ -9,6 +9,10 @@ package {
     public var whoCommandSent:Boolean = false;
     public var whoCounter:uint = 0;
     public var whoTimer:Timer = new Timer(77, 1);
+    public var statsCommandSent:Boolean = false;
+    public var searchedStat:String = "#";
+    public var statsCounter:uint = 0;
+    public var statsTimer:Timer = new Timer(77, 1);
 
     public function Command() {
       super();
@@ -27,6 +31,13 @@ package {
         this.whoCounter = 0;
         this.whoCommandSent = true;
         ExternalInterface.call("OnExecute", "/who");
+        break;
+      case "stats":
+        if (args.length > 0) {
+          this.statsCommandSent = true;
+          this.searchedStat = args.join(" ").toLowerCase();
+        }
+        ExternalInterface.call("OnExecute", "/stats");
         break;
       case "clear":
         curvu.chat.clear();
@@ -76,6 +87,13 @@ package {
       curvu.chat.addExternalMessage("There are " + this.whoCounter + " players in the world.");
     }
 
+    public function statsCounterOutput(e:TimerEvent) {
+      this.statsCommandSent = false;
+      this.searchedStat = "#";
+      if (this.statsCounter == 0) curvu.chat.addExternalMessage("No stats found for " + this.searchedStat + ".");
+      this.statsCounter = 0;
+    }
+
     public function startTimer(number:uint, message:Message) {
       var timer:Timer = new Timer(1000, number);
       timer.addEventListener(TimerEvent.TIMER, function(e:TimerEvent) {
@@ -91,6 +109,7 @@ package {
     private function printHelp() {
       curvu.chat.addExternalMessage("New commands:");
       curvu.chat.addExternalMessage(" //who - Prints the number of players in the world");
+      curvu.chat.addExternalMessage(" /stats {lookup} - Prints the stats for the given lookup");
       curvu.chat.addExternalMessage(" /clear - Clears the chat");
       curvu.chat.addExternalMessage(" /zen - Toggles zen mode (disable/enable chat)");
       curvu.chat.addExternalMessage(" /config - Prints the current config");
