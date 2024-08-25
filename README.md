@@ -8,7 +8,7 @@ An upgrade of the chat system in Trove, with more features and alot more customi
 - More chat commands, you can see them with `/help`
 
 ## Installation
-1. (trovessauros link)
+1. Go to the [releases](https://trovesaurus.com/mod=11094)
 2. Install the version you want, some have more features than others and install the config file (can be used without the config file)
 3. Place the `BetterChat.tmod` on the mods folder and the `BetterChat.cfg` in `%appdata%/Trove/ModCfgs`
 

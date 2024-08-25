@@ -13,13 +13,13 @@ package components {
     public function PartyItem(name:String) {
       super();
 
-      this.user = renderer.text(name, 1, -1, 10);
+      this.user = renderer.text(name, 1, 0, 10);
 
-      this.bg = renderer.rectangle(new Sprite(), 1, 1, 148, 13, renderer.GRAY_12);
+      this.bg = renderer.rectangle(new Sprite(), 1, 1, 148, 15, renderer.GRAY_12, 0.45);
 
-      this.invite = new Button("invite", 96, 0, 40, 15, renderer.GREEN, 9);
+      this.invite = new Button("INVITE", 94, 1, 40, 15, renderer.GREEN, 9, 0.45);
       this.invite.addEventListener(MouseEvent.CLICK, onInvite);
-      this.remove = new Button("X", 135, 0, 15, 15, renderer.RED, 9);
+      this.remove = new Button("X", 134, 1, 15, 15, renderer.RED, 9, 0.45);
 
       this.addChild(this.bg);
       this.addChild(this.user);
