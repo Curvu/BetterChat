@@ -1,0 +1,452 @@
+welcome:
+  description: "Displays the welcome screen, which can also be displayed with [HK:WelcomeScreen]."
+
+getxp:
+  alias: ["xp"]
+  description: "Displays your current level, paragon level, experience points, and the experience points needed to reach the next level or paragon level."
+
+gettomexp:
+  alias: ["tomexp"]
+  description: "Displays your current tome charge and how much charge is needed to fill the tome."
+
+weaponpreview:
+  alias: ["wp"]
+  args:
+    {name: "blueprint", info: "The name of the blueprint.", opt: true}
+  description: "Preview a weapon blueprint. Not visible to other players. Hides your weapon if no argument is provided."
+
+hatpreview:
+  args:
+    {name: "blueprint", info: "The name of the blueprint."}
+  description: "Preview a hat blueprint. Not visible to other players."
+
+facepreview:
+  args:
+    {name: "blueprint", info: "The name of the blueprint."}
+  description: "Preview a face blueprint. Not visible to other players."
+
+hairpreview:
+  alias: ["headpreview"]
+  args:
+    {name: "blueprint", info: "The name of the blueprint."}
+  description: "Preview a hair blueprint. Not visible to other players."
+
+eyepreview:
+  args:
+    {name: "blueprint", info: "The name of the blueprint."}
+  description: "Preview an eye blueprint. Not visible to other players."
+
+showplayer:
+  description: "Shows the local player if it was previously hidden with the /hideplayer command."
+
+hideplayer:
+  description: "Hides the local player. Other players will still see you. You can make the local player visible again with /showplayer."
+
+friend:
+  args:
+    {name: "player", info: "The player's name."}
+  description: "Send a friend request to another player."
+
+acceptallfriends:
+  description: "Accepts all incoming friend requests that were pending when the command is executed."
+
+ignore:
+  args:
+    {name: "player", info: "The player's name."}
+  description: "Add a specific player to your ignore list. This command will not work if the player is offline."
+
+fix_mouse:
+  description: "Inverts the vertical mouse axis."
+
+break_mouse:
+  description: "Disables inversion of vertical mouse axis, if it was enabled."
+
+joinme:
+  args:
+    {name: "player", info: "The player's name."}
+  description: "Send a player an invitation to join your world."
+
+joinworld:
+  args:
+    {name: "id", info: "The id of the world to join."}
+  description: "Join a specific world by providing either the world's id (/getworldid) or the name of a club."
+
+getworldid:
+  description: "Copies the world ID of the current world to your clipboard, which can be used to join the world again later via the /joinworld command."
+
+getbattleworldid:
+  description: "Copies the battle world ID of the current world to your clipboard."
+
+geodemastery:
+  description: "Displays your current Geode mastery in all categories."
+
+mastery:
+  description: "Displays your current Trove mastery in all categories."
+
+metrics:
+  alias: ["stats"]
+  description: "Displays a list of statistics for the player's account."
+
+exportmetrics:
+  description: "Saves a file containing your character's current stats along with your account metrics to the game directory."
+
+dnd:
+  description: "Toggle do not disturb mode, which blocks incoming invites and whispers."
+
+adventurerewards:
+  description: "Lists numbers of daily and weekly adventure rewards you have completed, allowing you to know which adventures you can still gain rewards from."
+
+debugtext:
+  alias: ["debug_text"]
+  description: "Toggles display of debug information on screen, including FPS, Round-Trip Time (RTT), Re-transmission count (tR), dropped transmission count (tX), Location, and Biome. FPS, Location, and Biome update every second, while RTT, WorldRTT, tR, and tX update every 5 seconds. tR and tX will not update if both values are, which makes them fairly inaccurate."
+
+smartplacement:
+  description: "Toggles smart placement, which allows you to place blocks along the adjacent edges of blocks when you aim near those edges."
+
+sortinventory:
+  description: "Will sort the inventory of your current game mode. Presents a confirmation dialog before sorting."
+
+getbattleboxinfo:
+  alias: ["battleboxinfo"]
+  description: "Retired command which displayed information relating to Battle Box drops."
+
+fov:
+  args:
+    {name: "value", info: "Desired field of view, in degrees [10-170].", opt: true}
+  description: "Set the camera's field of view to the specified degrees, or displays the current field of view if no argument is provided."
+
+renameworld:
+  args:
+    {name: "name", info: "Desired name of the world. Must be \"surrounded by quotes\" if it is more than one word."}
+  description: "Change the name shown on the map and friend's list for the current club world, if you have sufficient permission to do so."
+
+exportaccount:
+  description: "Will export your account's data to the PTS server. Exporting can usually be made quicker by exporting in a hub world, and then moving to a club world after the export confirmation message has appeared."
+
+toggleenvironmentfx:
+  description: "Toggles the visibility of environment FX, which are mostly obsolete."
+
+logstarbarinfo:
+  description: "Debug command showing the current visibility state, collected rewards, and total rewards for the starbar."
+
+setchattimestamp:
+  args:
+    {name: "0|1", info: "Whether or not to show the chat timestamp.", opt: true}
+  description: "Enable or disable the chat timestamp. Will pass the value 1 if no argument is provided. Note that most chat mods do not respect this value."
+
+stuck:
+  description: "Displays the atlas keybind [HK:Atlas]."
+
+played:
+  description: "Displays the player's true total playtime."
+
+retromode:
+  description: "Toggles the retro post-processing filter. This can improve performance on systems with a weak or no dedicated graphics device."
+
+postdof:
+  description: "Toggles the Depth of Field post-processing effect. When enabled, blurs distant scenery and objects."
+
+postfxaa:
+  description: "Toggles the Fast Approximate Anti-Aliasing post-processing effect. When enabled, uses an abject method to smooth edges."
+
+postlensdistort:
+  description: "Toggles the Lens Distortion post-processing effect. When enabled, creates a slight 'fisheye lens' effect, but applies Lanczos resampling to the warped area, making it look smudged or blurry."
+
+postbloom:
+  description: "Toggles the Bloom post-processing effect. When enabled, produces fringes of light extending from the borders of bright areas."
+
+postssao:
+  description: "Toggles the Screen Space Ambient Occlusion post-processing effect. When enabled, produces dark shadows at any corner created between voxels."
+
+postxray:
+  description: "Toggles the X-Ray post-processing effect. When enabled, allows outlines to be drawn through walls on other players, as well as enemies in certain scenarios."
+
+drawdistance:
+  args:
+    {name: "distance", info: "The distance in blocks [16-210].", opt: true}
+  description: "Set the draw distance, which determines how far away the world is drawn from your location, rounded up to the nearest chunk. If no argument is provided, sets the draw distance to 128."
+
+loddistance:
+  args:
+    {name: "distance", info: "The distance in blocks [16-96].", opt: true}
+  description: "Set the level-of-detail distance, which is currently used for nothing. If no argument is provided, sets the lod distance to 40."
+
+objdistance:
+  args:
+    {name: "distance", info: "The distance in blocks, with a minimum value of 16.", opt: true}
+  description: "Set the object distance, which determines how far away decoration blocks are drawn, rounded down to the nearest chunk. If no argument is provided, displays your current object distance."
+
+vfxquantity:
+  args:
+    {name: "quantity", info: "The percentage of the maximum allowed vfx quantity to use, in the range [0.1-1].", opt: true}
+  description: "Set the vfx quantity, which determines how many *low priority* particles are drawn at once. Using values lower than 0.5 can cause very frequent bugs. If no argument is provided, displays your current vfx quantity."
+
+shadercomplexity:
+  args:
+    {name: "complexity", info: "The shader complexity to use, in the range [0-1].", opt: true}
+  description: "Sets the shader complexity. Currently, this only makes a difference depending on if the complexity is above or below 0.5. When below 0.5, uses a faster method to render blocks and liquid. If no argument is provided, sets shader complexity to 1."
+
+fustumaabb:
+  description: "Debug command which displays the camera view frustum at the position the command was executed. The view is drawn with 8 lines. Wireframe cubes are randomly generated in a large area around the player, which will be green if they are completely in view, yellow if they are partially out of view, and red if they are completely out of view."
+
+fustumsphere:
+  args:
+    {name: "spheres": info: "The number of spheres to generate.", opt: true}
+  description: "Debug command which displays the camera view frustum at the position the command was executed. The view is drawn with 8 lines. Wireframe spheres are randomly generated in a small area around the player, which will be green if they are completely in view, yellow if they are partially out of view, and red if they are completely out of view."
+
+vsync:
+  args:
+    {name: "0|1", info: "Whether or not V-Sync should be enabled.", opt: true}
+  description: "Enable or disable Vertical Sync, which will increase (or decrease) the game's maximum FPS to match your monitor's refresh rate. If no argument is provided, displays the current V-Sync state."
+
+fxenable:
+  args:
+    {name: "0|1", info: "Whether or not to enable the particle system."}
+  description: "Enable or disable the particle system. When disabled, no VFX will be drawn. Note that swapping to a different world while the particle system is disabled will frequently cause a game crash if you later attempt to re-enable it."
+
+fxstats:
+  description: "Displays debug information relating to the particle system, including the number of particles and draw calls."
+
+supersample:
+  args:
+    {name: "level", info: "The desired level of super-sampling. 0.25 is 50%, 1.0 is 100%, 4.0 is 200%.", opt: true}
+  description: "Sets the level of super-sampling to use, which is the render resolution. Using 4.0 (200%) on a 1080p display would mean the game will render itself in 4K resolution, then scale itself down to fit your monitor. If no argument is passed, displays your current super-sampling level."
+
+screenshot:
+  description: "Take a screenshot. Can also be done with the [HK:Take Screenshot] key."
+
+large_screenshot:
+  args:
+    {name: "width", info: "The width of the output image.", opt: true}
+    {name: "height", info: "The height of the output image. Required if 'width' is provided.", opt: true}
+  description: "Take a screenshot at a larger resolution than the game window. If no arguments are provided, takes a screenshot at 200% render resolution."
+
+timelapse:
+  args:
+    {name: "interval", info: "How often to capture, in seconds. The minimum value is 5.", opt: true}
+  description: "Captures screenshots on an interval from the player's position. If no interval is provided, will capture once every 20 seconds."
+
+timelapsepause:
+  description: "Pauses the current timelapse, if one was active."
+
+timelapseresume:
+  description: "Resumes the current timelapse, if one was paused."
+
+timelapseend:
+  description: "Ends the current timelapse, if one was active or paused."
+
+loc:
+  description: "Displays the player's location."
+
+clublog: "TODO"
+club: "TODO"
+
+zonerestrict:
+  args:
+    {name: "nobody|basic|standard|expert", info: "Permission required to modify the current zone. Specifying 'nobody' puts the zone in an unmodifiable state."}
+  description: "Set or display the zone restriction for the current zone. You need to be standing relatively close to the center of the current tile according to the map for this command to work."
+
+who:
+  description: "Displays the list of players in the current world. The local player will always be at the top, and all other players are usually listed in order of connection."
+
+metaforge:
+  alias: ["mf"]
+  description: "Enter the Metaforge editor, which is used for the creation of dungeons and blueprints."
+
+tutorial:
+  description: "Warps you to the first tutorial world."
+
+tutorial2:
+  description: "Warps you to the second tutorial world."
+
+setsign:
+  args:
+    {name: "text", info: "The text to display on the sign."}
+  description: "Set the text of the sign your crosshair was over when the command was executed."
+
+granted:
+  description: "Retired command. Displays which players have editing privileges in museum worlds, which is now always a blank name since the list correlates to alpha accounts."
+
+clearcornerstone:
+  args:
+    {name: "1|2|3|4", info: "Which cornerstone slot to reset according to the order shown in your cornerstone list."}
+  description: "Reset one of your cornerstones to the default."
+
+listmods:
+  description: "Lists all currently recognized mods, with information telling you which are enabled, disabled, being blocked from loading, or are blocking another mod from loading."
+
+mods:_: "TODO TODO TODO TODO TODO"
+buildmod:
+  description: "Allows the building of TMOD files. Send the command '/buildmod' with no arguments for usage information."
+
+workshop:
+  description: "Steam only command to upload or update mods (I have not tested how this command works, sorry!)"
+
+testsky:
+  args:
+    {name: "environment", info: "unknown"}
+  description: "Presumably allows testing of skies from different environments."
+
+placefixture:
+  args:
+    {name: "prefab", info: "The name of the prefab correlating to the fixture you wish to place."}
+    {name: "slot", info: "The slot id you wish to place the fixture in."}
+  description: "Begin placement of the specified fixture in the specified slot. Requires sufficient access in the club the command is performed in."
+
+banishnpcslot:
+  args:
+    {name: "slot", info: "Which slot to banish, starting with index 0."}
+  description: "Remove an NPC from a club's Rally of Heroes."
+
+epicpose:
+  description: "Tools for taking screenshots of the character and their mount in a dramatic pose. The UI can be hidden with [HK:ToggleUI] and a screenshot can be taken with [HK:Take Screenshot]."
+
+sit:
+  description: "Character enters a sitting animation."
+
+pose:
+  alias: ["dramatic"]
+  description: "Character takes a dramatic pose."
+
+wave:
+  alias: ["bye"]
+  description: "Character performs a waving animation."
+
+zzz:
+  alias: ["sleep"]
+  description: "Character enters a sleeping animation."
+
+dance:
+  description: "Character enters a dancing animation."
+
+laugh:
+  description: "Character performs a crying animation."
+
+shrug:
+  description: "Character performs a shrugging animation."
+
+cry:
+  description: "Character performs a crying animation."
+
+bow:
+  description: "Character performs a bowing animation."
+
+prance:
+  description: "Perform a prancing animation when using the mount 'Princess Prancy Prance', 'Kazarin, Dancer in the Clouds', or 'Lunaclipsia'"
+
+stomp:
+  description: "Perform a stomping animation when using the mount 'Princey McEvilface'"
+
+quit:
+  description: "Close the game."
+
+uiscale:
+  args:
+    {name: "scale", info: "What UI scale to use, where '1.0' would be provided for 100% scale.", opt: true}
+  description: "Set the scaling for the game UI, or show the current scale if no argument is provided."
+
+showfriends:
+  alias: ["friendlist", "friendslist"]
+  description: "Open your friends list. Can also be done with the [HK:FriendsList] key."
+
+stringid:
+  args:
+    {name: "0|1", info: "Which state to use."}
+  description: "When set to 1, will prevent the game from translating any of the translation keys."
+
+setlocale:
+  args:
+    {name: "de|en|es|fr|hu|pt-br|ru", info: "Which language to use."}
+  description: "Set which language the game will use between German, English, Spanish, French, Hungarian, Portuguese, and Russian."
+
+localetestchars:
+  description: "Retired debug command which used to display a string of all characters."
+
+cornerstonedamageable:
+  args:
+    {name: "true|false", info: "Which state to use."}
+  description: "Whether or not your cornerstone should be damageable by bombs and class abilities."
+
+mastervolume:
+  args:
+    {name: "volume", info: "The volume level in the range [0-100]."}
+  description: "Set the master volume."
+
+vovolume:
+  description: "Retired command."
+
+musicvolume:
+  args:
+    {name: "volume", info: "The volume level in the range [0-100]."}
+  description: "Set the music volume."
+
+gamevolume:
+  args:
+    {name: "volume", info: "The volume level in the range [0-100]."}
+  description: "Set the SFX volume."
+
+whisper:
+  alias: ["w", "tell", "t"]
+  args:
+    {name: "player", info: "The player's name you want to whisper."}
+    {name: "message", info: "The message to send the player."}
+  description: "Send a private message to a specific player."
+
+join:
+  args:
+    {name: "channel", info: "The name of the channel to join."}
+  description: "Join a chat channel with the specified name. Can only contain alphanumeric characters."
+
+leave:
+  args:
+    {name: "channel", info: "The name or number correlating to the channel you wish to leave."}
+  description: "Leave a chat channel with the specified name or channel index."
+
+mychannels:
+  alias: ["channellist"]
+  description: "Lists name and channel indices of all chat channels you are currently in."
+
+chatlist:
+  description: "Lists all online players in the chat channel the command was executed in."
+
+global:
+  alias: ["g", "all", "a"]
+  description: "Switch to talk in the global chat, if the channel has already been joined."
+
+hide:
+  description: "Toggle your online status. When you are marked as offline, you will not appear online in other's friends list, club member lists, or chat lists."
+
+getgemboxinfo:
+  alias: ["getgbi"]
+  description: "On Gem Day (Wednesday), will display how many Lustrous Gem Box drops you still have left to get."
+
+reply:
+  alias: ["r"]
+  description: "Respond to the last player who sent a whisper to you, if any."
+
+region:
+  description: "Display the region of the world server you are connected to."
+
+testarena:
+  description: "Force-start a battle arena without having the required number of players."
+
+respawn:
+  description: "Forcibly kills your character. Resets your magic find to 0 in most situations outside of club or hub worlds."
+
+showui:
+  args:
+    {name: "0|1", info: "Whether or not the UI should be shown."}
+  description: "Show or hide the UI. Can also be toggled by pressing [HK:ToggleUI]."
+
+freeze_companion:
+  args:
+    {name: "true|false", info: "Whether or not the ally should be frozen.", opt: true}
+  description: "In club worlds, can be used to stop your ally from moving. Usually used for screenshots. If no argument is passed, will use the value true."
+
+/:
+  description: "Re-sends the previous command."
+
+kick:
+  args:
+    {name: "player", info: "The player's name to kick."}
+  description: "Kick the specified player from a Shadow Tower world. Can only be used by the player that opened the Shadow Tower portal."
