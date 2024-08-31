@@ -56,6 +56,23 @@ package {
       return false;
     }
 
+    public function isParty() : Boolean {
+      if (!curvu.party || !curvu.party.PARTY_ID) return false;
+      var arr:Array = this.message.content.split(" ");
+      if (arr.length != 2) return false;
+      if (arr[1] != curvu.party.PARTY_ID) return false;
+      if (arr[0] == "join/") {
+        curvu.party.addToParty(this.message.author);
+        curvu.chat.addExternalMessage("Added " + this.message.author + " to the party.");
+        return true;
+      } else if (arr[0] == "leave/") {
+        curvu.party.removeFromParty(this.message.author);
+        curvu.chat.addExternalMessage("Removed " + this.message.author + " from the party.");
+        return true;
+      }
+      return false;
+    }
+
     public function isWhisper() : Boolean {
       return this.message.content_color == renderer.WHISPER_COLOR && this.message.channel.length <= 0;
     }

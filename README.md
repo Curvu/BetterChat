@@ -27,10 +27,10 @@ show_hours = 1 # 0 = false, 1 = true
 show_minutes = 1 # 0 = false, 1 = true
 show_seconds = 1 # 0 = false, 1 = true
 aliases = fx0:fxenable 0,fx1:fxenable 1 # alias:command,alias:command,...
-blacklisted = troveflux.com # word1,word2,... ("TROVE     FLUX . COM" it will also detect it)
+blacklisted = troveflux.com # word1,word2,... ("TROVE     FLUX . COM" will also get detected)
 ```
 
 ## Credits
-- Geoflay, for helping me with the config file
+- Geoflay, for helping with the config file
 - TheSymbols Chat Mod (Edited by Sqze & Axodius), for inspiring me for some features
-- Irradiant, for feedback and testing and some feature ideas
+- Irradiant, for feedback, testing and some feature ideas

@@ -100,5 +100,9 @@ package {
       }
       ExternalInterface.call("UIComponent.OnSaveConfig", "chat.swf", key, out);
     }
+
+    public static function saveExternalConfig(file:String, key:String, val:String) : void {
+      ExternalInterface.call("UIComponent.OnSaveConfig", file, key, val);
+    }
   }
 }

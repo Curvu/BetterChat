@@ -64,6 +64,18 @@ package {
         this.whoCommandSent = true;
         ExternalInterface.call("OnExecute", "/who");
         break;
+      case "auto":
+        if (args.length == 0) {
+          curvu.chat.addExternalMessage("Syntax: /auto {party_name}");
+          break;
+        }
+        if (!curvu.party) {
+          curvu.party = new Party();
+          curvu.chat.addChild(curvu.party);
+        }
+        curvu.party.visible = true;
+        curvu.party.PARTY_ID = args[0];
+        break;
       case "clear":
         curvu.chat.clear();
         break;
@@ -138,6 +150,7 @@ package {
       curvu.chat.addExternalMessage(" /stats {lookup} - Prints the stats for the given lookup");
       curvu.chat.addExternalMessage(" /party {name1;name2;...} - Adds the given names to the party list");
       curvu.chat.addExternalMessage(" //party - Add everyone that are in the world to the party list");
+      curvu.chat.addExternalMessage(" /auto {party_name} - Creates a party with the given name, and everytime someone says the party name, they are added to the party list");
       curvu.chat.addExternalMessage(" /clear - Clears the chat");
       curvu.chat.addExternalMessage(" /zen - Toggles zen mode (disable/enable chat)");
       curvu.chat.addExternalMessage(" /config - Prints the current config");

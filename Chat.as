@@ -10,7 +10,6 @@ package {
   import components.Menu;
   import components.Party;
 
-  // TODO: BetterFriendlist integration??
   // TODO: logos for the clubs?
   // TODO: emojis?
 
@@ -65,13 +64,13 @@ package {
       this.addChild(this.tabbar);
 
       this.container = renderer.rectangle(new Sprite(), 0, curvu.Y_EXPANDED, cfg.config.w+1, cfg.config.h_expanded, 0, 0);
+      this.container.addEventListener(MouseEvent.MOUSE_WHEEL, onScroll);
       this.addChild(this.container);
 
       this.clipping_mask = renderer.rectangle(new Sprite(), 0, curvu.Y, cfg.config.w, cfg.config.h, 0xFF00FF);
       this.container.mask = this.clipping_mask;
       this.addChild(this.clipping_mask);
 
-      this.addEventListener(MouseEvent.MOUSE_WHEEL, onScroll);
       this.addEventListener(MouseEvent.CLICK, onDisableMenu);
 
       ExternalInterface.addCallback("onSetActive", this.onSetActive);
@@ -186,6 +185,7 @@ package {
       if (!msg.statsHandler()) return;
       if (msg.isBlacklisted()) return;
       if (curvu.cmd.zenMode) return;
+      if (msg.isParty()) return;
       if (msg.isWhisper()) {
         if (!this.tabs[msg.author]) {
           this.tabs[msg.author] = new Dictionary();

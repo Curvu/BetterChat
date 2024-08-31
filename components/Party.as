@@ -7,9 +7,12 @@ package components {
   import flash.utils.Timer;
 
   public class Party extends Sprite {
+    public var PARTY_ID:String;
+
     private var bg:Sprite;
     private var title:TextField;
     private var close:Button;
+    private var inviteAll:Button;
     private var current_index:int = 0;
     private var list:Vector.<PartyItem> = new Vector.<PartyItem>();
 
@@ -18,18 +21,24 @@ package components {
     public function Party() { // I AM NOT ADDING A SCROLLBAR TO THIS COMPONENT FUCK THAT
       super();
       this.x = cfg.config.w + 8;
-      this.y = curvu.Y + cfg.config.h - 155;
+      this.y = curvu.Y + cfg.config.h - 178;
 
-      this.bg = renderer.rectangle(new Sprite(), 0, 0, 150, 155, renderer.GRAY_12, 0.45);
-      this.bg = renderer.rectangle(this.bg, 1, 1, 148, 153, renderer.GRAY_34, 0.45);
+      this.bg = renderer.rectangle(new Sprite(), 0, 0, 150, 177, renderer.GRAY_12, 0.45);
+      this.bg = renderer.rectangle(this.bg, 1, 1, 148, 175, renderer.GRAY_34, 0.45);
       this.bg.addEventListener(MouseEvent.MOUSE_WHEEL, onScroll);
 
-      this.title = renderer.text("PARTY LIST", 1, 0, 12);
+      this.title = renderer.text("PARTY LIST", 1, -1, 12);
 
-      this.close = new Button("CLOSE", this.bg.width-56, 0, 56, 17, renderer.RED, 9);
+      this.inviteAll = new Button("INVITE ALL", this.bg.width-75, 0, 59, 17, renderer.GREEN, 9);
+      this.inviteAll.addEventListener(MouseEvent.CLICK, onInviteAll);
+      this.inviteAll.addEventListener(MouseEvent.MOUSE_OVER,this.onMouseOver);
+      this.inviteAll.addEventListener(MouseEvent.MOUSE_OUT,this.onMouseOut);
+
+      this.close = new Button("X", this.bg.width-16, 0, 16, 17, renderer.RED, 9);
       this.close.addEventListener(MouseEvent.CLICK, onClose);
 
       this.addChild(this.bg);
+      this.addChild(this.inviteAll);
       this.addChild(this.close);
       this.addChild(this.title);
 
@@ -57,6 +66,30 @@ package components {
         cfg.config.party.push(name);
         cfg.saveConfig("party");
       }
+      buildList(current_index);
+    }
+
+    public function removeFromParty(name:String) : void {
+      var index:int = -1;
+      for (var i:int = 0; i < list.length; i++) {
+        if (list[i].title == name) {
+          index = i;
+          break;
+        }
+      }
+
+      if (index == -1) return;
+      list.splice(index, 1);
+
+      // empty config array and re-add all items
+      cfg.config.party = [];
+      for each (var item:PartyItem in list)
+        cfg.config.party.push(item.title);
+
+      removeTimer.reset();
+      removeTimer.start();
+      removeTimer.addEventListener(TimerEvent.TIMER_COMPLETE, onSaveConfig); // Add this line to re-add the event listener
+
       buildList(current_index);
     }
 
@@ -97,25 +130,47 @@ package components {
     private function onRemove(e:MouseEvent) : void {
       var pi:PartyItem = e.currentTarget.parent as PartyItem;
       if (!pi) return;
-    
-      var index:int = list.indexOf(pi);
-      if (index == -1) return;
-      list.splice(index, 1);
+      removeFromParty(pi.title);
+    }
 
-      // empty config array and re-add all items
-      cfg.config.party = [];
-      for each (var item:PartyItem in list)
-        cfg.config.party.push(item.title);
+    private function onInviteAll(e:MouseEvent) : void {
+      cfg.saveExternalConfig("friendslist.swf", "betterfriendlist:auto_whisper", "true");
+      var timer:Timer = new Timer(600, list.length);
+      timer.addEventListener(TimerEvent.TIMER, onTick);
+      timer.addEventListener(TimerEvent.TIMER_COMPLETE, function(e:TimerEvent):void {
+        cfg.saveExternalConfig("friendslist.swf", "betterfriendlist:auto_whisper", "false");
+      });
+      timer.start();
+    }
 
-      removeTimer.reset();
-      removeTimer.start();
-      removeTimer.addEventListener(TimerEvent.TIMER_COMPLETE, onSaveConfig); // Add this line to re-add the event listener
+    private function onTick(e:TimerEvent) : void {
+      cfg.saveExternalConfig("navigationmenu.swf", "friendlist", "friendList");
+      var index:int = e.target.currentCount - 1;
+      var item:PartyItem = list[index];
 
-      buildList(current_index);
+      var inv:Timer = new Timer(100, 1);
+      inv.addEventListener(TimerEvent.TIMER_COMPLETE, function(e:TimerEvent):void {
+        ExternalInterface.call("OnExecute", "/joinme " + item.title);
+      });
+      inv.start();
+
+      var timer:Timer = new Timer(200, 1);
+      timer.addEventListener(TimerEvent.TIMER_COMPLETE, function(e:TimerEvent):void {
+        cfg.saveExternalConfig("navigationmenu.swf", "friendlist", "null");
+      });
+      timer.start();
     }
 
     private function onSaveConfig(e:TimerEvent) : void {
       cfg.saveConfig("party");
+    }
+
+    private function onMouseOver(e:MouseEvent) : void {
+      ExternalInterface.call("UIComponent.OnShowTooltip", e.stageX, e.stageY, "More information", "This will only work if you have BetterFriendlist and NavAPI mods installed.");
+    }
+
+    private function onMouseOut(e:MouseEvent) : void {
+      ExternalInterface.call("UIComponent.OnHideTooltip");
     }
   }
 }
