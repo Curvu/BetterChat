@@ -8,22 +8,7 @@ package {
     public static const FMT:TextFormat = new TextFormat("Open Sans", null, WHITE, null, false, false, null, null);
     public static const SHADOW:DropShadowFilter = new DropShadowFilter(1, 45, 0, 1, 0, 0, 1, 1);
 
-    public static const GREEN:uint = 0x50DB66;
-    public static const RED:int = 0xFE014C;
-    public static const BLACK:uint = 0x000000;
-    public static const WHITE:uint = 0xFFFFFF;
-    public static const GRAY_9:uint = 0x090909;
-    public static const GRAY_12:int = 0x0C0C0C;
-    public static const GRAY_16:int = 0x101010;
-    public static const GRAY_22:int = 0x161616;
-    public static const GRAY_25:int = 0x191919;
-    public static const GRAY_28:int = 0x1C1C1C;
-    public static const GRAY_30:int = 0x1E1E1E;
-    public static const GRAY_34:int = 0x222222;
-    public static const GRAY_38:int = 0x262626;
-    public static const GRAY_41:int = 0x292929;
-    public static const GRAY_48:int = 0x303030;
-
+    public static const WHITE:int = 0xFFFFFF;
     public static const WHISPER_COLOR:int = 14446832;
     public static const STATS_COLOR:int = 16777215;
 

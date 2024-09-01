@@ -128,7 +128,7 @@ package {
     public function statsCounterOutput(e:TimerEvent) {
       this.statsCommandSent = false;
       this.searchedStat = "#";
-      if (this.statsCounter == 0) curvu.chat.addExternalMessage("No stats found for " + this.searchedStat + ".");
+      if (this.statsCounter == 0) curvu.chat.addExternalMessage("No stats found for " + this.searchedStat + ".", cfg.config.cmd_header_color);
       this.statsCounter = 0;
     }
 
@@ -145,12 +145,14 @@ package {
     }
 
     private function printHelp() {
-      curvu.chat.addExternalMessage("New commands:");
+      curvu.chat.addExternalMessage("New commands:", cfg.config.cmd_header_color);
       curvu.chat.addExternalMessage(" //who - Prints the number of players in the world");
       curvu.chat.addExternalMessage(" /stats {lookup} - Prints the stats for the given lookup");
       curvu.chat.addExternalMessage(" /party {name1;name2;...} - Adds the given names to the party list");
       curvu.chat.addExternalMessage(" //party - Add everyone that are in the world to the party list");
       curvu.chat.addExternalMessage(" /auto {party_name} - Creates a party with the given name, and everytime someone says the party name, they are added to the party list");
+      curvu.chat.addExternalMessage(" join/ {party_name} - Adds you to the party with the given name");
+      curvu.chat.addExternalMessage(" leave/ {party_name} - Removes you from the party with the given name");
       curvu.chat.addExternalMessage(" /clear - Clears the chat");
       curvu.chat.addExternalMessage(" /zen - Toggles zen mode (disable/enable chat)");
       curvu.chat.addExternalMessage(" /config - Prints the current config");
@@ -160,7 +162,7 @@ package {
     }
 
     private function printConfig() {
-      curvu.chat.addExternalMessage("Current config:");
+      curvu.chat.addExternalMessage("Current config:", cfg.config.cmd_header_color);
       var temp:Vector.<String>;
       for (var key:String in cfg.config) {
         if (cfg.convert[key][0] == cfg.TYPE.MAP) {

@@ -7,12 +7,13 @@ package components {
   import flash.utils.Timer;
 
   public class Party extends Sprite {
-    public var PARTY_ID:String;
+    private var _PARTY_ID:String;
 
     private var bg:Sprite;
     private var title:TextField;
     private var close:Button;
     private var inviteAll:Button;
+    private var clearAll:Button;
     private var current_index:int = 0;
     private var list:Vector.<PartyItem> = new Vector.<PartyItem>();
 
@@ -21,24 +22,28 @@ package components {
     public function Party() { // I AM NOT ADDING A SCROLLBAR TO THIS COMPONENT FUCK THAT
       super();
       this.x = cfg.config.w + 8;
-      this.y = curvu.Y + cfg.config.h - 178;
+      this.y = curvu.Y + cfg.config.h - 193;
 
-      this.bg = renderer.rectangle(new Sprite(), 0, 0, 150, 177, renderer.GRAY_12, 0.45);
-      this.bg = renderer.rectangle(this.bg, 1, 1, 148, 175, renderer.GRAY_34, 0.45);
+      this.bg = renderer.rectangle(new Sprite(), 0, 0, 150, 193, curvu.darken(cfg.config.party_color, 0.25), cfg.config.party_color_alpha);
+      this.bg = renderer.rectangle(this.bg, 1, 1, 148, 191, cfg.config.party_color, cfg.config.party_color_alpha);
       this.bg.addEventListener(MouseEvent.MOUSE_WHEEL, onScroll);
 
-      this.title = renderer.text("PARTY LIST", 1, -1, 12);
+      this.title = renderer.text("PARTY", 1, -1, 12);
 
-      this.inviteAll = new Button("INVITE ALL", this.bg.width-75, 0, 59, 17, renderer.GREEN, 9);
+      this.inviteAll = new Button("INVITE ALL", 0, 16, this.bg.width*2/3, 17, cfg.config.invite_btn_color, 9);
       this.inviteAll.addEventListener(MouseEvent.CLICK, onInviteAll);
       this.inviteAll.addEventListener(MouseEvent.MOUSE_OVER,this.onMouseOver);
       this.inviteAll.addEventListener(MouseEvent.MOUSE_OUT,this.onMouseOut);
 
-      this.close = new Button("X", this.bg.width-16, 0, 16, 17, renderer.RED, 9);
+      this.clearAll = new Button("CLEAR", this.bg.width * (2/3), 16, this.bg.width/3, 17, cfg.config.clear_btn_color, 9);
+      this.clearAll.addEventListener(MouseEvent.CLICK, onClearAll);
+
+      this.close = new Button("X", this.bg.width-16, 0, 16, 17, cfg.config.close_btn_color, 9);
       this.close.addEventListener(MouseEvent.CLICK, onClose);
 
       this.addChild(this.bg);
       this.addChild(this.inviteAll);
+      this.addChild(this.clearAll);
       this.addChild(this.close);
       this.addChild(this.title);
 
@@ -46,6 +51,11 @@ package components {
         addToParty(cfg.config.party[i], true);
 
       removeTimer.addEventListener(TimerEvent.TIMER_COMPLETE, onSaveConfig);
+
+      if (curvu.DEBUG) {
+        for (var x:int = 0; x < 15; x++)
+          addToParty("Player" + x);
+      }
     }
 
     private function searchName(name:String) : Boolean {
@@ -98,7 +108,7 @@ package components {
 
       for (var i:int = index; i < list.length && i < index + 10; i++) {
         var item:PartyItem = list[i];
-        item.y = 16 + (i - index) * 16;
+        item.y = 16*2 + (i - index) * 16;
         item.theme = i % 2 == 0;
         this.bg.addChild(item);
       }
@@ -108,6 +118,15 @@ package components {
       this.x = cfg.config.w + 8;
       this.y = curvu.Y + cfg.config.h - 150;
       buildList();
+    }
+
+    public function get PARTY_ID() : String {
+      return _PARTY_ID;
+    }
+
+    public function set PARTY_ID(id:String) : void {
+      _PARTY_ID = id;
+      this.title.text = "PARTY › " + id;
     }
 
     private function onClose(e:MouseEvent) : void {
@@ -143,8 +162,15 @@ package components {
       timer.start();
     }
 
+    private function onClearAll(e:MouseEvent) : void {
+      list = new Vector.<PartyItem>();
+      cfg.config.party = [];
+      cfg.saveConfig("party");
+      buildList();
+    }
+
     private function onTick(e:TimerEvent) : void {
-      cfg.saveExternalConfig("navigationmenu.swf", "friendlist", "friendList");
+      cfg.saveExternalConfig("navigationmenu.swf", "friendlist", "1");
       var index:int = e.target.currentCount - 1;
       var item:PartyItem = list[index];
 
@@ -156,7 +182,7 @@ package components {
 
       var timer:Timer = new Timer(200, 1);
       timer.addEventListener(TimerEvent.TIMER_COMPLETE, function(e:TimerEvent):void {
-        cfg.saveExternalConfig("navigationmenu.swf", "friendlist", "null");
+        cfg.saveExternalConfig("navigationmenu.swf", "friendlist", "0");
       });
       timer.start();
     }

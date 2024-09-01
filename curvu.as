@@ -8,16 +8,12 @@ package {
     public static var chat:Chat;
     public static var party:Party;
 
+    public static var DEBUG:Boolean = true;
+
     public static var users:Object = {
       "Jus7Ace": 0xADFF00,
       "smellyalater": 0x00FF00,
-      "mamameow": 0xA2E4B8,
-      "Axodius": 0xFF0087,
-      "Naxie": 0xD470A2,
-      "Agum0n": 0xffc0cb,
-      "_Carbon": 0xCF9FFF,
-      "KaiJiieow": 0xEE775E,
-      "Suo_": 0x10729c
+      "Suo_": 0x10729C
     }
 
     public static function darken(color:uint, amount:Number) : uint {
@@ -29,6 +25,15 @@ package {
 
     public static function clamp(p:Number, min:Number, max:Number) : Number {
       return Math.max(min, Math.min(max, p));
+    }
+
+    public static function trim(str:String) : String {
+      const len:int = str.length;
+      var result:String = "";
+      for (var i:int = 0; i < len; ++i)
+        if (str.charAt(i) != " ")
+          result += str.charAt(i);
+      return result.toLowerCase();
     }
   }
 }

@@ -13,7 +13,7 @@ package components {
 
     private var listeners:Array = [];
 
-    public function Button(txt:String = "", x:int = 0, y:int = 0, w:int = 0, h:int = 0, color:uint = renderer.GRAY_28, size:int = 11, a:Number = 1) {
+    public function Button(txt:String = "", x:int = 0, y:int = 0, w:int = 0, h:int = 0, color:uint = 0, size:int = 11, a:Number = 1) {
       super();
       this.color = color;
       this.body = renderer.rectangle(new Sprite(), x+1, y+1, w-2, h-2, color, a);

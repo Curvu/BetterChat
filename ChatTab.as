@@ -10,7 +10,7 @@ package {
     private var _text:TextField;
     private var _notification:TextField;
     private var body:Sprite;
-    private var color:uint = renderer.GRAY_28;
+    private var color:uint = cfg.config.tab_color;
 
     public function ChatTab(txt:String = "", x:int = 0, y:int = 0) {
       super();
@@ -71,7 +71,7 @@ package {
       if (this._notification) this.removeChild(this._notification);
       this._notification = renderer.text(value.toString(), this.body.x + this.body.width - 8, this.body.y - 4, 11, "left", 0, 0, false, true);
       this._notification.filters = [];
-      this._notification.transform.colorTransform = renderer.hexToRGB(renderer.RED);
+      this._notification.transform.colorTransform = renderer.hexToRGB(cfg.config.tab_notification_color);
       this.addChild(this._notification);
       this._notification.visible = value > 0;
     }

@@ -24,7 +24,9 @@ package {
 
     private var tabbar:Sprite;
     private var tabs:Dictionary = new Dictionary();
+    public var messages:Dictionary = new Dictionary();
     public var current_tab:String = "ALL";
+    private var last_channel:String = "";
 
     private var menu:Menu;
 
@@ -51,9 +53,9 @@ package {
       this.tabs["ALL"] = new Dictionary();
       this.tabs["ALL"]["messages"] = new Vector.<MessageContainer>();
 
-      renderer.rectangle(this, 0, curvu.Y, cfg.config.w, cfg.config.h, renderer.GRAY_48, 0);
+      renderer.rectangle(this, 0, curvu.Y, cfg.config.w, cfg.config.h, cfg.config.chat_color, cfg.config.chat_color_alpha);
 
-      this.inputBg = renderer.rectangle(new Sprite(), 0, curvu.Y_EXPANDED + cfg.config.h_expanded, cfg.config.w, 24, renderer.GRAY_28, 0.85);
+      this.inputBg = renderer.rectangle(new Sprite(), 0, curvu.Y_EXPANDED + cfg.config.h_expanded, cfg.config.w, 24, cfg.config.input_bg_color, cfg.config.input_bg_color_alpha);
       this.inputBg.visible = false;
       this.addChild(this.inputBg);
       this.input = new ChatInput();
@@ -73,14 +75,31 @@ package {
 
       this.addEventListener(MouseEvent.CLICK, onDisableMenu);
 
+      if (curvu.DEBUG) {
+        this.container.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) : void { onSetActive(!is_active); });
+        for (var i:int = 0; i < 50; i++) {
+          this.addMessage(0, "2. World", "Author", "Content - ", renderer.WHITE, renderer.WHITE, false, false, true);
+        }
+        this.addMessage(0, "2. World", "Author", "grain lesson charge machine wood has string down tiny compass usually union enjoy story pony neighbor fastened experience obtain surprise we degree plenty nearby", renderer.WHITE, renderer.WHITE, false, false, true);
+        this.addMessage(0, "", "Author", "Content", renderer.WHISPER_COLOR, renderer.WHITE, false, false, true);
+        this.addMessage(0, "3. Ship", "Author", "LALALA", renderer.WHITE, renderer.WHITE, false, false, true);
+        this.addMessage(0, "2. World", "Author", "REPEATED MESSAGE", renderer.WHITE, renderer.WHITE, false, false, true);
+        this.addMessage(0, "3. World", "Author", "REPEATED MESSAGE", renderer.WHITE, renderer.WHITE, false, false, true);
+        this.addMessage(0, "3. World", "Author", "REPEATED MESSAGE", renderer.WHITE, renderer.WHITE, false, false, true);
+        this.addMessage(0, "3. World", "Author", "loleca", renderer.WHITE, renderer.WHITE, false, false, true);
+        this.input.setDefaultChannel("2. World", renderer.WHITE);
+        curvu.party = new Party();
+        this.addChild(curvu.party);
+      }
+
       ExternalInterface.addCallback("onSetActive", this.onSetActive);
       ExternalInterface.addCallback("addMessage", this.addMessage);
     }
 
     public function onSetActive(active:Boolean) : void {
       this.graphics.clear();
-      if (active) renderer.rectangle(this, 0, curvu.Y_EXPANDED, cfg.config.w, cfg.config.h_expanded, renderer.GRAY_48, 0.5);
-      else renderer.rectangle(this, 0, curvu.Y, cfg.config.w, cfg.config.h, renderer.GRAY_48, 0);
+      if (active) renderer.rectangle(this, 0, curvu.Y_EXPANDED, cfg.config.w, cfg.config.h_expanded, cfg.config.chat_color, cfg.config.chat_color_alpha);
+      else renderer.rectangle(this, 0, curvu.Y, cfg.config.w, cfg.config.h, cfg.config.chat_color, cfg.config.chat_color_alpha);
 
       this.input.onSetActive(active);
       this.inputBg.visible = active;
@@ -102,8 +121,8 @@ package {
       this.buildTabs(this.current_tab != "ALL");
 
       if (!this.draggable) {
-        this.bar = renderer.rectangle(new Sprite(), cfg.config.w+1, curvu.Y_EXPANDED, 6, cfg.config.h_expanded, renderer.GRAY_48, 0.85);
-        this.draggable = renderer.rectangle(new Sprite(), cfg.config.w+2, curvu.Y+1, 4, cfg.config.h_expanded - 2, renderer.GRAY_12, 0.85);
+        this.bar = renderer.rectangle(new Sprite(), cfg.config.w+1, curvu.Y_EXPANDED, 6, cfg.config.h_expanded, cfg.config.scrollbar_color, cfg.config.scrollbar_color_alpha);
+        this.draggable = renderer.rectangle(new Sprite(), cfg.config.w+2, curvu.Y+1, 4, cfg.config.h_expanded - 2, curvu.darken(cfg.config.scrollbar_color, 0.45), cfg.config.scrollbar_color_alpha);
         this.scrollzone = renderer.rectangle(new Sprite(), -cfg.config.w, -curvu.Y_EXPANDED, cfg.config.w*10, cfg.config.h_expanded*10, 0, 0);
         this.addChild(this.bar);
         this.addChild(this.draggable);
@@ -124,7 +143,7 @@ package {
       this.draggable.removeEventListener(MouseEvent.MOUSE_DOWN, onDrag);
       this.draggable.removeEventListener(MouseEvent.MOUSE_UP, onRemoveDrag);
       this.removeChild(this.draggable);
-      this.draggable = renderer.rectangle(new Sprite(), cfg.config.w+2, y, 4, height-1, renderer.GRAY_12, 0.85);
+      this.draggable = renderer.rectangle(new Sprite(), cfg.config.w+2, y, 4, height-1, curvu.darken(cfg.config.scrollbar_color, 0.25), cfg.config.scrollbar_color_alpha);
       this.draggable.addEventListener(MouseEvent.MOUSE_DOWN, onDrag);
       this.addChild(this.draggable);
 
@@ -202,22 +221,40 @@ package {
         return;
       }
 
+      // if message is from a different channel, switch to that channel
+      if (!cfg.config.ignore_channel_swap && this.last_channel != channel && channel != "") {
+        this.addChannelMessage(channel, content_color);
+        this.last_channel = channel;
+      }
+
       // adding the message
       msg.addEventListener(MouseEvent.RIGHT_CLICK, onRightClick);
       this.tabs["ALL"]["messages"].push(msg);
 
-      if (this.tabs["ALL"]["messages"].length > cfg.config.max_messages)
-        this.tabs["ALL"]["messages"].shift();
+      var key:String = curvu.trim(msg.channel+msg.author+msg.content);
+      this.messages[key] = this.messages[key] ? this.messages[key] + 1 : 1;
+      msg.isRepeated();
+
+      if (this.tabs["ALL"]["messages"].length > cfg.config.max_messages) {
+        var m:MessageContainer = this.tabs["ALL"]["messages"].shift();
+        delete this.messages[curvu.trim(m.channel+m.author+m.content)];
+      }
 
       this.updateScroll();
       if (this.indexScroll == 0 && !this.menu) this.renderMessages(0);
     }
 
-    public function addExternalMessage(content:String) : void {
+    public function addExternalMessage(content:String, color:uint=0) : void {
+      if (color == 0) color = cfg.config.mod_message_default_color;
       var last_state:Boolean = curvu.cmd.zenMode;
       curvu.cmd.zenMode = false;
-      this.addMessage(0, "", "", content, renderer.RED, 0, false, false, true);
+      this.addMessage(0, "", "", content, color, 0, false, false, true);
       curvu.cmd.zenMode = last_state;
+    }
+
+    public function addChannelMessage(channel:String, color:uint) : void {
+      if (channel == "") return;
+      this.addMessage(0, "", "", "#$#"+channel, color, 0, false, false, true);
     }
 
     public function renderMessages(len:int) : void {
@@ -338,12 +375,23 @@ package {
       curvu.Y_EXPANDED = 725 - cfg.config.h_expanded;
       curvu.Y = cfg.config.h_expanded - cfg.config.h + curvu.Y_EXPANDED;
       this.removeChild(this.inputBg);
-      this.inputBg = renderer.rectangle(new Sprite(), 0, curvu.Y_EXPANDED + cfg.config.h_expanded, cfg.config.w, 24, renderer.GRAY_28, 0.85);
+      this.inputBg = renderer.rectangle(new Sprite(), 0, curvu.Y_EXPANDED + cfg.config.h_expanded, cfg.config.w, 24, cfg.config.input_bg_color, cfg.config.input_bg_color_alpha);
       this.addChildAt(this.inputBg, 0);
       this.removeChild(this.bar);
-      this.bar = renderer.rectangle(new Sprite(), cfg.config.w+1, curvu.Y_EXPANDED, 6, cfg.config.h_expanded, renderer.GRAY_48, 0.85);
+      this.bar = renderer.rectangle(new Sprite(), cfg.config.w+1, curvu.Y_EXPANDED, 6, cfg.config.h_expanded, cfg.config.scrollbar_color, cfg.config.scrollbar_color_alpha);
       this.addChild(this.bar);
       if (curvu.party) curvu.party.refresh();
+    }
+
+    public function removeMessage(msg:MessageContainer) : void {
+      var msgs:Vector.<MessageContainer> = this.tabs["ALL"]["messages"];
+      for (var i:int = 0; i < msgs.length; i++) { // remove the first instance
+        var message:MessageContainer = msgs[i];
+        if (message.channel == msg.channel && message.author == msg.author && curvu.trim(message.content) == curvu.trim(msg.content)) {
+          msgs.splice(i, 1);
+          break;
+        }
+      }
     }
   }
 }

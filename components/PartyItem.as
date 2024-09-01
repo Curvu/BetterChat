@@ -15,11 +15,11 @@ package components {
 
       this.user = renderer.text(name, 1, 0, 10);
 
-      this.bg = renderer.rectangle(new Sprite(), 1, 1, 148, 15, renderer.GRAY_12, 0.45);
+      this.bg = renderer.rectangle(new Sprite(), 1, 1, 148, 15, 0, 0.45);
 
-      this.invite = new Button("INVITE", 94, 1, 40, 15, renderer.GREEN, 9, 0.45);
+      this.invite = new Button("INVITE", 94, 1, 40, 15, cfg.config.invite_btn_color, 9, 0.45);
       this.invite.addEventListener(MouseEvent.CLICK, onInvite);
-      this.remove = new Button("X", 134, 1, 15, 15, renderer.RED, 9, 0.45);
+      this.remove = new Button("X", 134, 1, 15, 15, cfg.config.clear_btn_color, 9, 0.45);
 
       this.addChild(this.bg);
       this.addChild(this.user);
@@ -28,7 +28,7 @@ package components {
     }
 
     public function set theme(t:Boolean) : void {
-      this.bg.transform.colorTransform = renderer.hexToRGB(t ? renderer.GRAY_22 : renderer.GRAY_34);
+      this.bg.transform.colorTransform = renderer.hexToRGB(t ? cfg.config.party_item_1_color : cfg.config.party_item_2_color);
     }
 
     private function onInvite(e:MouseEvent) : void {

@@ -36,7 +36,9 @@ package {
             ExternalInterface.call("OnExecute", "I'm dumb, please call me out on it! :)");
           }
         }
-        // curvu.chat.addMessage(0, "World", "Jus7Ace", (curvu.chat.current_tab == "ALL" ? "" : "/w " + curvu.chat.current_tab + " ") + this.inputText.text, renderer.WHITE, renderer.WHITE, false, true, false);
+        if (curvu.DEBUG) {
+          curvu.chat.addMessage(0, "World", "Jus7Ace", (curvu.chat.current_tab == "ALL" ? "" : "/w " + curvu.chat.current_tab + " ") + this.inputText.text, renderer.WHITE, renderer.WHITE, false, true, false);
+        }
         ExternalInterface.call("OnExecute", (curvu.chat.current_tab == "ALL" ? "" : "/w " + curvu.chat.current_tab + " ") + this.inputText.text);
       } else if(e.keyCode == Keyboard.SPACE && curvu.chat.current_tab == "ALL") {
         ExternalInterface.call("OnAutocomplete", this.inputText.text);
@@ -78,14 +80,14 @@ package {
     }
 
     public function setDefaultChannel(channel:String, color:uint) : void {
-      this.defaultChannelTextField.text = channel;
+      this.defaultChannelTextField.text = channel.replace(" ›", "") + " ›";
 
       this.defaultChannelTextField.width = this.defaultChannelTextField.textWidth + 5;
       this.inputText.x = this.defaultChannelTextField.x + this.defaultChannelTextField.width;
       this.inputText.width = cfg.config.w - this.inputText.x;
       this.defaultChannelTextField.textColor = color;
 
-      if (this.defaultChannelTextField.text != "Whisper")
+      if (this.defaultChannelTextField.text != "Whisper ›")
         curvu.chat.refreshSavedChannel();
     }
   }
