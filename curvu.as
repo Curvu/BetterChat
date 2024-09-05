@@ -8,9 +8,9 @@ package {
     public static var chat:Chat;
     public static var party:Party;
 
-    public static var DEBUG:Boolean = true;
+    public static const DEBUG:Boolean = true;
 
-    public static var users:Object = {
+    public static const users:Object = {
       "Jus7Ace": 0xADFF00,
       "smellyalater": 0x00FF00,
       "Suo_": 0x10729C

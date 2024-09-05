@@ -37,7 +37,7 @@ package {
           }
         }
         if (curvu.DEBUG) {
-          curvu.chat.addMessage(0, "World", "Jus7Ace", (curvu.chat.current_tab == "ALL" ? "" : "/w " + curvu.chat.current_tab + " ") + this.inputText.text, renderer.WHITE, renderer.WHITE, false, true, false);
+          curvu.chat.addMessage(0, "2. World", "Jus7Ace", (curvu.chat.current_tab == "ALL" ? "" : "/w " + curvu.chat.current_tab + " ") + this.inputText.text, renderer.WHITE, renderer.WHITE, false, true, false);
         }
         ExternalInterface.call("OnExecute", (curvu.chat.current_tab == "ALL" ? "" : "/w " + curvu.chat.current_tab + " ") + this.inputText.text);
       } else if(e.keyCode == Keyboard.SPACE && curvu.chat.current_tab == "ALL") {

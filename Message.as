@@ -1,5 +1,6 @@
 package {
   import flash.text.TextField;
+  import flash.display.MovieClip;
 
   public class Message {
     public var channel:String;
@@ -12,9 +13,11 @@ package {
     public var lootbox:Boolean;
     public var is_channel_swap:Boolean;
     private var _counter:int = 0;
+    private var tt:String;
 
     private var fmt:String;
     private var message:TextField;
+    public var emojes:Vector.<MovieClip> = new Vector.<MovieClip>();
 
     private var format:Object = {
       "default": "${AUTHOR} › ${CONTENT}",
@@ -44,26 +47,21 @@ package {
     }
 
     public function formatMessage(fmt:String) : TextField {
-      var text:String = renderer.colored(format[fmt], renderer.rgbToHex(fmt == "me" ? curvu.users[author] || author_color : fmt == "timer" || fmt == "timer_going" || fmt == "timer_end" ? cfg.config.timer_color : content_color));
+      tt = renderer.colored(format[fmt], renderer.rgbToHex(fmt == "me" ? curvu.users[author] || author_color : fmt == "timer" || fmt == "timer_going" || fmt == "timer_end" ? cfg.config.timer_color : content_color));
 
-      if (_counter > 0) text += " ${COUNTER}";
-      if (cfg.config.ignore_channel_swap) text = "[${CHANNEL}] " + text;
+      if (_counter > 0) tt += " ${COUNTER}";
+      if (cfg.config.ignore_channel_swap) tt = "[${CHANNEL}] " + tt;
 
       // Replace the placeholders
-      text = text.replace("${CHANNEL}", channel.replace(". ", " - "));
-      text = text.replace("${ME}", renderer.colored("me", renderer.rgbToHex(author_color)));
-      text = text.replace("${AUTHOR}", renderer.colored(author, renderer.rgbToHex(curvu.users[author] || author_color)));
-      text = text.replace("${CONTENT}", content);
-      text = text.replace("${COUNTER}", renderer.colored("("+_counter+")", renderer.rgbToHex(cfg.config.repeated_message_color)));
+      tt = tt.replace("${CHANNEL}", channel.replace(". ", " - "));
+      tt = tt.replace("${ME}", renderer.colored("me", renderer.rgbToHex(author_color)));
+      tt = tt.replace("${AUTHOR}", renderer.colored(author, renderer.rgbToHex(curvu.users[author] || author_color)));
+      tt = tt.replace("${CONTENT}", content);
+      tt = tt.replace("${COUNTER}", renderer.colored("("+_counter+")", renderer.rgbToHex(cfg.config.repeated_message_color)));
 
-      message.htmlText = text;
-      message.height = message.textHeight;
-
+      message.htmlText = tt;
+      handleEmoji();
       return this.message;
-    }
-
-    public function get height() : int {
-      return this.message.height;
     }
 
     public function toString() : TextField {
@@ -101,6 +99,50 @@ package {
       }
 
       return this.formatMessage(fmt);
+    }
+
+    public function handleEmoji() : void {
+      var arr:Array = [];
+      var temp:Array = message.text.split(" ");
+      if (temp[1] == '-') return;
+
+      for (var i:int = 0; i < temp.length; i++) {
+        if (emojis._[temp[i]]) arr.push(emojis.scale(emojis.getEmoji(emojis._[temp[i]])));
+        else arr.push(temp[i]);
+      }
+
+      var phrase:String = "";
+      var x:int = 0;
+      for (i = 0; i < arr.length; i++) {
+        if (arr[i] is MovieClip) {
+          if (phrase.length > 0) {
+            var tf:TextField = renderer.text(phrase, x, 2, cfg.config.text_size, "left", 0, 0, true);
+            phrase = "";
+            x += tf.textWidth;
+          }
+          arr[i].x = x;
+          arr[i].y = 2;
+          x += arr[i].width;
+          emojes.push(arr[i]);
+
+          // replace the emoji with a space
+          var space:String = "";
+          for (var j:int = 0; j < temp[i].length * 1.5; j++) space += " ";
+          trace(space, temp[i], tt);
+          tt = tt.replace(temp[i], space);
+          trace(tt);
+        } else phrase += arr[i] + " ";
+      }
+
+      message.htmlText = tt;
+    }
+
+    public function get height() : int {
+      return this.message.height;
+    }
+
+    public function set height(value:int) : void {
+      this.message.height = value;
     }
 
     public function get counter() : int {

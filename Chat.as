@@ -77,16 +77,22 @@ package {
 
       if (curvu.DEBUG) {
         this.container.addEventListener(MouseEvent.CLICK, function(e:MouseEvent) : void { onSetActive(!is_active); });
-        for (var i:int = 0; i < 50; i++) {
-          this.addMessage(0, "2. World", "Author", "Content - ", renderer.WHITE, renderer.WHITE, false, false, true);
-        }
-        this.addMessage(0, "2. World", "Author", "grain lesson charge machine wood has string down tiny compass usually union enjoy story pony neighbor fastened experience obtain surprise we degree plenty nearby", renderer.WHITE, renderer.WHITE, false, false, true);
-        this.addMessage(0, "", "Author", "Content", renderer.WHISPER_COLOR, renderer.WHITE, false, false, true);
-        this.addMessage(0, "3. Ship", "Author", "LALALA", renderer.WHITE, renderer.WHITE, false, false, true);
-        this.addMessage(0, "2. World", "Author", "REPEATED MESSAGE", renderer.WHITE, renderer.WHITE, false, false, true);
-        this.addMessage(0, "3. World", "Author", "REPEATED MESSAGE", renderer.WHITE, renderer.WHITE, false, false, true);
-        this.addMessage(0, "3. World", "Author", "REPEATED MESSAGE", renderer.WHITE, renderer.WHITE, false, false, true);
-        this.addMessage(0, "3. World", "Author", "loleca", renderer.WHITE, renderer.WHITE, false, false, true);
+        // for (var i:int = 0; i < 50; i++) {
+        //   this.addMessage(0, "2. World", "Author", "Content - ", renderer.WHITE, renderer.WHITE, false, false, true);
+        // }
+        // this.addMessage(0, "2. World", "Author", "grain lesson charge machine wood has string down tiny compass usually union enjoy story pony neighbor fastened experience obtain surprise we degree plenty nearby", renderer.WHITE, renderer.WHITE, false, false, true);
+        // this.addMessage(0, "", "Author", "Content", renderer.WHISPER_COLOR, renderer.WHITE, false, false, true);
+        // this.addMessage(0, "3. Ship", "Author", "LALALA", renderer.WHITE, renderer.WHITE, false, false, true);
+        // this.addMessage(0, "2. World", "Author", "REPEATED MESSAGE", renderer.WHITE, renderer.WHITE, false, false, true);
+        // this.addMessage(0, "3. World", "Author", "REPEATED MESSAGE", renderer.WHITE, renderer.WHITE, false, false, true);
+        // this.addMessage(0, "3. World", "Author", "REPEATED MESSAGE", renderer.WHITE, renderer.WHITE, false, false, true);
+        // this.addMessage(0, "3. World", "Author", "loleca", renderer.WHITE, renderer.WHITE, false, false, true);
+        this.addMessage(0, "2. World", "Jus7Ace", "im a text message on the left side RAGEY right side text message lol RAGEY", renderer.WHITE, renderer.WHITE, false, false, true);
+        this.addMessage(0, "2. World", "Author", "RAGEY", renderer.WHITE, renderer.WHITE, false, false, true);
+        this.addMessage(0, "2. World", "Jus7Ace", "lololllll RAGEY lollll", renderer.WHITE, renderer.WHITE, false, false, true);
+        this.addMessage(0, "2. World", "Jus7Ace", "LLL RAGEY L", renderer.WHITE, renderer.WHITE, false, false, true);
+        this.addMessage(0, "2. World", "Jus7Ace", "LLLL RAGEY L", renderer.WHITE, renderer.WHITE, false, false, true);
+        this.addMessage(0, "2. World", "Jus7Ace", "LLLLL RAGEY L", renderer.WHITE, renderer.WHITE, false, false, true);
         this.input.setDefaultChannel("2. World", renderer.WHITE);
         curvu.party = new Party();
         this.addChild(curvu.party);

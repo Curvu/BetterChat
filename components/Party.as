@@ -154,6 +154,7 @@ package components {
 
     private function onInviteAll(e:MouseEvent) : void {
       cfg.saveExternalConfig("friendslist.swf", "betterfriendlist:auto_whisper", "true");
+      if (list.length == 0) return;
       var timer:Timer = new Timer(600, list.length);
       timer.addEventListener(TimerEvent.TIMER, onTick);
       timer.addEventListener(TimerEvent.TIMER_COMPLETE, function(e:TimerEvent):void {
@@ -163,7 +164,7 @@ package components {
     }
 
     private function onClearAll(e:MouseEvent) : void {
-      list = new Vector.<PartyItem>();
+      list.length = 0;
       cfg.config.party = [];
       cfg.saveConfig("party");
       buildList();
