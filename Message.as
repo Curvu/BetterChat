@@ -43,7 +43,7 @@ package {
       this.showAuthor = showAuthor;
       this.lootbox = lootbox;
       this.is_channel_swap = !cfg.config.ignore_channel_swap && content.indexOf("#$#") == 0;
-      this.message = renderer.text("", 5, 2, cfg.config.text_size, "left", 0, 0, true);
+      this.message = renderer.text("", 5, 2, cfg.config.text_size, "left", 1, 1, true, false, true);
     }
 
     public function formatMessage(fmt:String) : TextField {
@@ -52,8 +52,18 @@ package {
       if (_counter > 0) tt += " ${COUNTER}";
       if (cfg.config.ignore_channel_swap) tt = "[${CHANNEL}] " + tt;
 
+      var ch:Array = channel.split(". ");
+      if (ch.length > 1) {
+        var l:Object = logos._[ch[1]];
+        var calc:int = cfg.config.text_size + 3;
+        if (l) {
+          ch[1] = "<img src='" + l.src + "' width='"+curvu.ruleOfThree(l.h, l.w, calc)+"' height='"+calc+"' hspace='0' vspace='0' style='vertical-align: middle;' /> "
+        }
+      }
+      channel = ch.join(" - ");
+
       // Replace the placeholders
-      tt = tt.replace("${CHANNEL}", channel.replace(". ", " - "));
+      tt = tt.replace("${CHANNEL}", channel);
       tt = tt.replace("${ME}", renderer.colored("me", renderer.rgbToHex(author_color)));
       tt = tt.replace("${AUTHOR}", renderer.colored(author, renderer.rgbToHex(curvu.users[author] || author_color)));
       tt = tt.replace("${CONTENT}", content);
@@ -113,24 +123,24 @@ package {
 
       var phrase:String = "";
       var x:int = 0;
-      for (i = 0; i < arr.length; i++) {
+      var len:int = arr.length;
+      for (i = 0; i < len; i++) {
         if (arr[i] is MovieClip) {
           if (phrase.length > 0) {
-            var tf:TextField = renderer.text(phrase, x, 2, cfg.config.text_size, "left", 0, 0, true);
+            var tf:TextField = renderer.text(phrase, x, 2, cfg.config.text_size, "left", cfg.config.w, 50, true);
             phrase = "";
             x += tf.textWidth;
           }
           arr[i].x = x;
           arr[i].y = 2;
-          x += arr[i].width;
+          var lenn:int = Math.ceil(arr[i].width / curvu.spaceWidth) + 1;
+          x += arr[i].width + (lenn / 1.5);
           emojes.push(arr[i]);
 
           // replace the emoji with a space
           var space:String = "";
-          for (var j:int = 0; j < temp[i].length * 1.5; j++) space += " ";
-          trace(space, temp[i], tt);
+          for (var j:int = 0; j < lenn; j++) space += "&nbsp;";
           tt = tt.replace(temp[i], space);
-          trace(tt);
         } else phrase += arr[i] + " ";
       }
 

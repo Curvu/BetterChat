@@ -45,7 +45,7 @@ package {
       return s;
     }
 
-    public static function text(str:String = "", x:int = 0, y:int = 0, size:Number = 8, align:String = "left", w:int = -1, h:int = -1, wordWrap:Boolean = false, isBold:Boolean = false):TextField {
+    public static function text(str:String = "", x:int = 0, y:int = 0, size:Number = 8, align:String = "left", w:int = 100, h:int = 25, wordWrap:Boolean = false, isBold:Boolean = false, verticalAlign:Boolean = false) : TextField {
       var tf:TextField = new TextField();
       tf.filters = [SHADOW];
       FMT.size = size;
@@ -60,6 +60,9 @@ package {
       if (h != -1) tf.height = h;
       tf.wordWrap = wordWrap;
       tf.autoSize = align;
+
+      if (verticalAlign) tf.y = y + (h - tf.textHeight) / 2;
+
       return tf;
     }
   }

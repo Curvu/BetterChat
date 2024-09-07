@@ -6,12 +6,13 @@ package {
   import flash.utils.Dictionary;
   import flash.utils.Timer;
   import flash.events.TimerEvent;
+  import flash.text.TextField;
 
   import components.Menu;
   import components.Party;
 
+  // TODO: and when changing line the X, big messages "lllll..." and then emote will also kinda bug i think
   // TODO: logos for the clubs?
-  // TODO: emojis?
 
   public class Chat extends MovieClip {
     private var container:Sprite;
@@ -53,6 +54,9 @@ package {
       this.tabs["ALL"] = new Dictionary();
       this.tabs["ALL"]["messages"] = new Vector.<MessageContainer>();
 
+      var tempField:TextField = renderer.text("&nbsp;", 0, 0, cfg.config.text_size);
+      curvu.spaceWidth = tempField.textWidth;
+
       renderer.rectangle(this, 0, curvu.Y, cfg.config.w, cfg.config.h, cfg.config.chat_color, cfg.config.chat_color_alpha);
 
       this.inputBg = renderer.rectangle(new Sprite(), 0, curvu.Y_EXPANDED + cfg.config.h_expanded, cfg.config.w, 24, cfg.config.input_bg_color, cfg.config.input_bg_color_alpha);
@@ -87,12 +91,10 @@ package {
         // this.addMessage(0, "3. World", "Author", "REPEATED MESSAGE", renderer.WHITE, renderer.WHITE, false, false, true);
         // this.addMessage(0, "3. World", "Author", "REPEATED MESSAGE", renderer.WHITE, renderer.WHITE, false, false, true);
         // this.addMessage(0, "3. World", "Author", "loleca", renderer.WHITE, renderer.WHITE, false, false, true);
+        this.addMessage(0, "2. World", "Jus7Ace", "RAGEY RAGEY RAGEY RAGEY RAGEY RAGEY RAGEY RAGEY RAGEY RAGEY 1", renderer.WHITE, renderer.WHITE, false, false, true);
+        this.addMessage(0, "2. World", "Jus7Ace", "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL RAGEY", renderer.WHITE, renderer.WHITE, false, false, true);
         this.addMessage(0, "2. World", "Jus7Ace", "im a text message on the left side RAGEY right side text message lol RAGEY", renderer.WHITE, renderer.WHITE, false, false, true);
-        this.addMessage(0, "2. World", "Author", "RAGEY", renderer.WHITE, renderer.WHITE, false, false, true);
-        this.addMessage(0, "2. World", "Jus7Ace", "lololllll RAGEY lollll", renderer.WHITE, renderer.WHITE, false, false, true);
-        this.addMessage(0, "2. World", "Jus7Ace", "LLL RAGEY L", renderer.WHITE, renderer.WHITE, false, false, true);
-        this.addMessage(0, "2. World", "Jus7Ace", "LLLL RAGEY L", renderer.WHITE, renderer.WHITE, false, false, true);
-        this.addMessage(0, "2. World", "Jus7Ace", "LLLLL RAGEY L", renderer.WHITE, renderer.WHITE, false, false, true);
+        this.addMessage(0, "2. Sobbing", "Jus7Ace", "asdasda asd as dsa das d sad sad sad as das da d sad asd asd sa das das da sd as RAGEY", renderer.WHITE, renderer.WHITE, false, false, true);
         this.input.setDefaultChannel("2. World", renderer.WHITE);
         curvu.party = new Party();
         this.addChild(curvu.party);

@@ -7,6 +7,7 @@ package {
     public static var cmd:Command = new Command();
     public static var chat:Chat;
     public static var party:Party;
+    public static var spaceWidth:Number;
 
     public static const DEBUG:Boolean = true;
 
@@ -34,6 +35,10 @@ package {
         if (str.charAt(i) != " ")
           result += str.charAt(i);
       return result.toLowerCase();
+    }
+
+    public static function ruleOfThree(a:Number, b:Number, c:Number) : Number { // a:b = c:x
+      return (b * c) / a; // = x
     }
   }
 }

@@ -29,20 +29,22 @@ package {
       m.x = width + 2;
       m.width = cfg.config.w - (message.is_channel_swap ? 0 : width + 2);
       this.addChild(m);
+
+      var height:int = this.message.height + 5;
+      var plus:int = 0;
       for each(var emoji:MovieClip in this.message.emojes) {
-        emoji.x = (emoji.x % (cfg.config.w - width)) + m.x + 1;
-        // emoji.x += m.x;
-        var debug:TextField = renderer.text("emoji.x: "+emoji.x+" | m.x: "+m.x+" | after: "+(emoji.x+m.x), emoji.x, 25, 13);
-        this.addChild(debug);
+        plus = Math.floor(emoji.x / (m.width-25)) * 16;
+        emoji.y = 5 + plus;
+        emoji.x = (emoji.x % (m.width-24)) + m.x + 2;
         this.addChild(emoji);
       }
 
-      this.bg = renderer.rectangle(new Sprite(), 0, 0, cfg.config.w, this.message.height+5, 0, 0.5);
+      this.bg = renderer.rectangle(new Sprite(), 0, 0, cfg.config.w, height, 0, 0.5);
       this.addChildAt(this.bg, 0);
 
       if (!cfg.config.ignore_channel_swap && message.is_channel_swap) return;
       this.ts = renderer.text(time, 0, 2, cfg.config.text_size, "center", width, 0);
-      this.ts_background = renderer.rectangle(new Sprite(), 0, 0, width, this.message.height+5, 0, 0.5);
+      this.ts_background = renderer.rectangle(new Sprite(), 0, 0, width, height, 0, 0.5);
       this.addChild(this.ts_background);
       this.addChild(this.ts);
     }
