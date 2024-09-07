@@ -57,7 +57,7 @@ package {
         var l:Object = logos._[ch[1]];
         var calc:int = cfg.config.text_size + 3;
         if (l) {
-          ch[1] = "<img src='" + l.src + "' width='"+curvu.ruleOfThree(l.h, l.w, calc)+"' height='"+calc+"' hspace='0' vspace='0' style='vertical-align: middle;' /> "
+          ch[1] = "<img src='" + l.src + "' width='"+curvu.ruleOfThree(l.h, l.w, calc)+"' height='"+calc+"' hspace='0' vspace='3' align='middle' /> "
         }
       }
       channel = ch.join(" - ");
